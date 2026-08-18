@@ -1,0 +1,153 @@
+{% for clubcomment in club_comments %}
+  {% if user.is_authenticated or clubcomment %}
+    <p class="close-gap">
+      <strong>
+        {% if clubcomment.user.is_active %}
+        <i class="fas fa-check-square" style="color: #005eff;"></i> <a href="{% url 'soccer:user_player_comment_list' clubcomment.user.username %}">{{ clubcomment.user.nickname }}</a>
+        {% else %}
+        <i class="fas fa-user"></i> {{ clubcomment.author }}
+        {% endif %}
+      </strong>（投稿日：{{ clubcomment.timestamp }}）
+    </p>
+    <div class="flex">
+      <div class="wrap-chart">
+        <div class="chart-container">
+          <canvas id="radar-chart-comment{{ clubcomment.id }}"></canvas>
+        </div>
+        <table class="w-100 my-3 rate-table">
+          <tr>
+            <td class="comment-average-name text-center">総合評価</td>
+          </tr>  
+          <tr>
+            <td class="comment-average-value text-center"><i class="fas fa-star"></i> {{ clubcomment.ovr }} / 7</td>
+          </tr>
+        </table>
+      </div>
+      <div class="comment-detail">
+        <p class="comment-text">{{ clubcomment.text|linebreaksbr }}</p>
+        <div class="text-center">
+          <a href="javascript:void(0)" id="comment{{ clubcomment.id }}" class="like{{ forloop.counter }} btn btn-dark" name="{{ clubcomment.id }}">いいね ({{ clubcomment.like }})</a>
+          {% if user.is_superuser %}
+              <a class="btn btn-danger" href="{% url 'soccer:club_comment_remove' clubcomment.pk %}">削除</a>
+          {% endif %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="http://twitter.com/intent/tweet?text=⚽️みんなのサッカーラボ｜{{ clubcomment.team }}の評価%0a%0a📝コメント%0a🗣️{{ clubcomment.author }}さん - 📊総合評価：{{ clubcomment.ovr }}／7%0a{{ clubcomment.text|truncatechars_html:50 }}%0a{{ request.scheme }}://{{ request.get_host }}{% url 'soccer:club_detail' clubcomment.team.slug %}" rel="nofollow" class="btn btn-outline-primary"><i class="fab fa-twitter"></i> ツイート</a>
+        </div>
+      </div>
+    </div>
+    <hr>
+  {% endif %}
+{% empty %}
+    <div class="text-center">
+      <i class="fas fa-comment-slash"></i> まだ投稿はありません。<br>
+      コメントよろしくお願いします。
+    </div>
+{% endfor %}
+
+
+{% block javascripts %}
+    {% for clubcomment in club_comments %}
+        <script type="text/javascript"> 
+            var ctx = document.getElementById("radar-chart-comment{{ clubcomment.id }}");
+            var myRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['攻撃力', '守備力', '監督・コーチ', 'フロント', '育成力'],
+                    datasets:[ 
+                        {
+                            label: "投稿者の評価",
+                            data: [
+                                
+                                '{{ clubcomment.attack }}', 
+                                '{{ clubcomment.defense }}', 
+                                '{{ clubcomment.manager }}',
+                                '{{ clubcomment.front }}', 
+                                '{{ clubcomment.development }}',
+                            ],
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            borderColor: 'rgba(255, 99, 132, 0.9)',
+                            pointBackgroundColor: 'rgba(255, 99, 132, 0.9)',
+                            pointBorderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 3,
+                            pointRadius: 3,
+                        }
+                    ]
+                },
+                options : {
+                    scale: {
+                        pointLabels: {
+                        fontSize: 10
+                        },
+                        ticks: {
+                        max: 7,
+                        min: 0,
+                        stepSize: 1,
+                        fontSize: 10,
+                        backdropColor: 'rgba(255, 255, 255, 0)',
+                        }
+                    },
+                    legend:{
+                        labels: {
+                            fontSize: 10,
+                        }
+                    },
+                    tooltips:{
+                        titleFontSize: 10,
+                        bodyFontSize: 10,
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+
+
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrftoken = getCookie('csrftoken');
+
+            function csrfSafeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                crossDomain: false,
+                beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+            $('.like{{ forloop.counter }}').on('click', function () {
+                var pk = $(this).attr('name')
+                $.ajax({
+                    type: 'GET',
+                    method: 'GET',
+                    url: "{% url 'soccer:club_like' clubcomment.pk %}",
+                    data: {
+                        'pk': pk
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                  if(data['count'] < 10){
+                    $('#comment' + String(data['pk'])).text('いいね' + ' (' + String(data['like']) + ')');
+                  } else if(data['count'] === 10) {
+                    $('#comment' + String(data['pk'])).text('いいね' + ' (' + String(data['like']) + ')').css('pointer-events', 'none').attr('tabindex', -1);
+                  } else {
+                    $('#comment' + String(data['pk'])).css('pointer-events', 'none').attr('tabindex', -1);
+                  }
+                })
+            });
+        </script>
+    {% endfor %}
+{% endblock %}

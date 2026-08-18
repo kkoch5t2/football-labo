@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ area.name }}の国一覧（代表チーム） | {{ block.super }}{% endblock %}
+{% block description %}{{ object.description }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/national_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="headline1 mb-4"><i class="fas fa-globe"></i> {{ area.name }}の国一覧（代表チーム）</h1>
+      <div class="btn-group-vertical w-100 mb-3" role="group">
+        <div class="btn-group w-100" role="group">
+          <a href="{% url 'soccer:area_national' area.slug %}" class="btn btn-outline-primary w-50">最新順</a>
+          <a href="{% url 'soccer:area_national_comment_count' area.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+        </div>
+        <div class="btn-group w-100" role="group">
+          <button type="button" class="btn btn-primary w-50 active">平均総合評価順</button>
+        </div>
+      </div>
+      {% include "soccer/snippets/national_main_page.html" %}
+      {% include "soccer/snippets/pagination.html" %}
+      <div class="text-center my-4">
+        <a class="btn btn-primary" href="/request/">追加リクエスト</a>
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}退会申請 | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">退会申請</h1>
+      <ul>
+        <li>退会後のアカウント復旧はできません。</li>
+        <li>退会した場合、これまでの投稿が全て削除され、閲覧できなくなります。</li>
+      </ul>
+      <p><a href="{% url 'soccer:user_deactivate_confirm' %}" class="btn btn-primary">退会する</a></p>
+      <a href="{% url 'soccer:user_settings' %}" class="btn btn-secondary mb-3">戻る</a>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

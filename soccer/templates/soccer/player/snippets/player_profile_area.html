@@ -1,0 +1,342 @@
+<article class="player-area">
+    <div class="border rounded-lg p-4 mb-4">
+      <h1 class="headline1">{{ object.country.flag|safe }} {{ object.name }}</h1>
+      <p><i class="fas fa-users"></i> 所属クラブ：{{ object.league.flag|safe }} {{ object.team }}</p>
+      <div class="top-position-none-space">
+        <p>
+          <i class="fas fa-running"></i> ポジション：
+          <div class="position-box"><p>{{ object.main_position }}</p></div>
+          {% if object.second_position != NULL %}
+            <div class="position-box"><p>{{ object.second_position }}</p></div>
+          {% endif %}
+          {% if object.third_position != NULL %}
+            <div class="position-box"><p>{{ object.third_position }}</p></div>
+          {% endif %}
+        </p>
+      </div>
+      <hr>
+      <table border="1" class="profile-table mt-4">
+          <tr>
+            <td class="profile" colspan="2"><i class="fas fa-address-card"></i> プロフィール</td>
+          </tr>
+          <tr>
+            <td class="content-name">名前</td>
+            <td class="content-field">{{ object.name }}</td>
+          </tr>  
+          <tr>
+            <td class="content-name">国籍</td>
+            <td class="content-field">{{ object.country.flag|safe }} {{ object.country }}</td>
+          </tr>
+          <tr>  
+            <td class="content-name">生年月日</td>
+            <td class="content-field">{{ object.birthday }}</td>
+          </tr>
+          <tr>
+            <td class="content-name">身長</td>
+            <td class="content-field">{{ object.height }}cm</td>
+          </tr>
+          <tr>
+            <td class="content-name">利き足</td>
+            <td class="content-field">{{ object.foot }}</td>
+          </tr>
+          <tr>
+            <td class="content-name">所属クラブ</td>
+            <td class="content-field">{{ object.league.flag|safe }} {{ object.team }}</td>
+          </tr>
+      </table>
+      <table border="1" class="position-table mt-5">
+        <tr>
+          {% if object.main_position == 'LW' %}
+          <td class="b position-td" rowspan="2">
+            <p class="position-name">LW</p>
+          </td>
+          {% elif object.second_position == 'LW' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">LW</p>
+          </td>
+          {% elif object.third_position == 'LW' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">LW</p>
+          </td>
+          {% else %}
+          <td class="a position-td" rowspan="2">
+            <p class="position-name">LW</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'CF' %}
+          <td class="b position-td">
+            <p class="position-name">CF</p>
+          </td>
+          {% elif object.second_position == 'CF' %}
+          <td class="c position-td">
+            <p class="position-name">CF</p>
+          </td>
+          {% elif object.third_position == 'CF' %}
+          <td class="c position-td">
+            <p class="position-name">CF</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">CF</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'RW' %}
+          <td class="b position-td" rowspan="2">
+            <p class="position-name">RW</p>
+          </td>
+          {% elif object.second_position == 'RW' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">RW</p>
+          </td>
+          {% elif object.third_position == 'RW' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">RW</p>
+          </td>
+          {% else %}
+          <td class="a position-td" rowspan="2">
+            <p class="position-name">RW</p>
+          </td>
+          {% endif %}
+        </tr>
+        <tr>
+          {% if object.main_position == 'SS' %}
+          <td class="b position-td">
+            <p class="position-name">SS</p>
+          </td>
+          {% elif object.second_position == 'SS' %}
+          <td class="c position-td">
+            <p class="position-name">SS</p>
+          </td>
+          {% elif object.third_position == 'SS' %}
+          <td class="c position-td">
+            <p class="position-name">SS</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">SS</p>
+          </td>
+          {% endif %}
+        </tr>
+        <tr>
+          {% if object.main_position == 'LM' %}
+          <td class="b position-td" rowspan="2">
+            <p class="position-name">LM</p>
+          </td>
+          {% elif object.second_position == 'LM' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">LM</p>
+          </td>
+          {% elif object.third_position == 'LM' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">LM</p>
+          </td>
+          {% else %}
+          <td class="a position-td" rowspan="2">
+            <p class="position-name">LM</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'AM' %}
+          <td class="b position-td">
+            <p class="position-name">AM</p>
+          </td>
+          {% elif object.second_position == 'AM' %}
+          <td class="c position-td">
+            <p class="position-name">AM</p>
+          </td>
+          {% elif object.third_position == 'AM' %}
+          <td class="c position-td">
+            <p class="position-name">AM</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">AM</p>
+           </td>
+          {% endif %}
+          {% if object.main_position == 'RM' %}
+          <td class="b position-td" rowspan="2">
+            <p class="position-name">RM</p>
+          </td>
+          {% elif object.second_position == 'RM' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">RM</p>
+          </td>
+          {% elif object.third_position == 'RM' %}
+          <td class="c position-td" rowspan="2">
+            <p class="position-name">RM</p>
+          </td>
+          {% else %}
+          <td class="a position-td" rowspan="2">
+            <p class="position-name">RM</p>
+          </td>
+          {% endif %}
+        </tr>
+        <tr>
+          {% if object.main_position == 'CM' %}
+          <td class="b position-td">
+            <p class="position-name">CM</p>
+          </td>
+          {% elif object.second_position == 'CM' %}
+          <td class="c position-td">
+            <p class="position-name">CM</p>
+          </td>
+          {% elif object.third_position == 'CM' %}
+          <td class="c position-td">
+            <p class="position-name">CM</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">CM</p>
+          </td>
+          {% endif %}
+         </tr>
+        <tr>
+          {% if object.main_position == 'LWB' %}
+          <td class="b position-td">
+            <p class="position-name">LWB</p>
+          </td>
+          {% elif object.second_position == 'LWB' %}
+          <td class="c position-td">
+            <p class="position-name">LWB</p>
+          </td>
+          {% elif object.third_position == 'LWB' %}
+          <td class="c position-td">
+            <p class="position-name">LWB</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">LWB</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'DM' %}
+          <td class="b position-td">
+            <p class="position-name">DM</p>
+          </td>
+          {% elif object.second_position == 'DM' %}
+          <td class="c position-td">
+            <p class="position-name">DM</p>
+          </td>
+          {% elif object.third_position == 'DM' %}
+          <td class="c position-td">
+            <p class="position-name">DM</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">DM</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'RWB' %}
+          <td class="b position-td">
+            <p class="position-name">RWB</p>
+          </td>
+          {% elif object.second_position == 'RWB' %}
+          <td class="c position-td">
+            <p class="position-name">RWB</p>
+          </td>
+          {% elif object.third_position == 'RWB' %}
+          <td class="c position-td">
+            <p class="position-name">RWB</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">RWB</p>
+          </td>
+          {% endif %}
+        </tr>
+        <tr>
+          {% if object.main_position == 'LB' %}
+          <td class="b position-td">
+            <p class="position-name">LB</p>
+          </td>
+          {% elif object.second_position == 'LB' %}
+          <td class="c position-td">
+            <p class="position-name">LB</p>
+          </td>
+          {% elif object.third_position == 'LB' %}
+          <td class="c position-td">
+            <p class="position-name">LB</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">LB</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'CB' %}
+          <td class="b position-td">
+            <p class="position-name">CB</p>
+          </td>
+          {% elif object.second_position == 'CB' %}
+          <td class="c position-td">
+            <p class="position-name">CB</p>
+          </td>
+          {% elif object.third_position == 'CB' %}
+          <td class="c position-td">
+            <p class="position-name">CB</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">CB</p>
+          </td>
+          {% endif %}
+          {% if object.main_position == 'RB' %}
+          <td class="b position-td">
+            <p class="position-name">RB</p>
+          </td>
+          {% elif object.second_position == 'RB' %}
+          <td class="c position-td">
+            <p class="position-name">RB</p>
+          </td>
+          {% elif object.third_position == 'RB' %}
+          <td class="c position-td">
+            <p class="position-name">RB</p>
+          </td>
+          {% else %}
+          <td class="a position-td">
+            <p class="position-name">RB</p>
+          </td>
+          {% endif %}
+        </tr>
+        <tr>
+          {% if object.main_position == 'GK' %}
+          <td class="a position-td"></td>
+          <td class="b position-td">
+            <p class="position-name">GK</p>
+          </td>
+          <td class="a position-td"></td>
+          {% elif object.second_position == 'GK' %}
+          <td class="a position-td"></td>
+          <td class="c position-td">
+            <p class="position-name">GK</p>
+          </td>
+          <td class="a position-td"></td>
+          {% elif object.third_position == 'GK' %}
+          <td class="a position-td"></td>
+          <td class="c position-td">
+            <p class="position-name">GK</p>
+          </td>
+          <td class="a position-td"></td>
+          {% else %}
+          <td class="a position-td"></td>
+          <td class="a position-td">
+            <p class="position-name">GK</p>
+          </td>
+          <td class="a position-td"></td>
+          {% endif %}
+        </tr>
+      </table>
+      <div class="text-center mt-4"><a class="btn btn-primary" href="{% url 'soccer:player_update_request_form' player.pk %}">更新リクエスト</a></div>
+    </div>
+  </article>
+  <div class="mb-4">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677179691441346"
+        crossorigin="anonymous"></script>
+    <!-- football-labo（メインページ部分） -->
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-7677179691441346"
+        data-ad-slot="4567960118"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>

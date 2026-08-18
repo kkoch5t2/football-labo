@@ -1,0 +1,49 @@
+{% load static %}
+
+{% if messages %}
+<div class="messages_ul">
+    {% for message in messages %}
+    <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert" style="list-style: none;"><i class="fas fa-user"></i> {{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+<h1 class="mb-5 headline1">
+    {% if user.username == username %}
+    <i class="fas fa-user"></i> マイページ
+    {% else %}
+    <i class="fas fa-user"></i> アカウント詳細
+    {% endif %}
+</h1>
+<div class="d-flex justify-content-start my-3">
+    {% if request_user.user_icon %}
+        <img src="{{ request_user.user_icon.url }}" alt="{{ request_user.username }}" class="headline-team user-icon">
+    {% else %}
+        <img src="{% static 'soccer/img/default_user_icon.png' %}" alt="{{ request_user.username }}" class="headline-team user-icon">
+    {% endif %}
+    <div class="ml-4">
+      <p class="h4 font-weight-bold">{{ request_user.nickname }}</p>
+      <p>@{{ username }}</p>
+      <p><a href="{% url 'soccer:following_list' username %}">フォロー：{{ following }}</a>　<a href="{% url 'soccer:follower_list' username %}">フォロワー：{{ follower }}</a></p>
+    </div>  
+</div>
+{% if request_user.profile_message %}
+    <div class="mb-4">
+        {{ request_user.profile_message }}
+    </div>
+{% endif %}
+<!-- <p><a href="{% url 'soccer:logout'%}">ログアウト</a></p> -->
+<div class="button_field mb-5">
+<!--プロフィールの遷移先が自分のプロフィールである場合の表示ボタン-->
+{% if user.username == username %}
+    <div class="d-flex justify-content-start">
+    <a href="{% url 'soccer:user_settings' %}" class="btn btn-primary mr-3">プロフィール編集</a>
+    <a href="{% url 'soccer:logout' %}" class="btn btn-dark">ログアウト</a>
+    </div>
+<!--プロフィールの遷移先が自分がフォローしているユーザーの場合の表示ボタン-->
+{% elif connected %}
+    <a href="{% url 'soccer:unfollow' username %}" class="btn btn-dark">フォロー解除</a>
+<!--自分がフォローしていないユーザーの場合の表示ボタン-->
+{% else %}
+    <a href="{% url 'soccer:follow' username %}" class="btn btn-secondary">フォロー</a>
+{% endif %}
+</div>

@@ -1,0 +1,77 @@
+<h2 class="close-gap headline2"><i class="fas fa-clipboard"></i> {{ player.name }}に対するみんなの評価（平均値）</h2>
+<hr>
+{% with avg_ratings=player.avg_ratings %}
+<table border="1" class="w-100 mb-4 rate-table">
+    <tr>
+    <td class="average-name text-center">平均総合評価</td>
+    </tr>
+    <tr>
+    <td class="average-value all-average-value text-center"><i class="fas fa-star"></i> {{ avg_ratings.ovr__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+</table>
+{% endwith %}
+<div class="canvas-container mb-4">
+<canvas id="radar-chart"></canvas>
+</div>
+{% with avg_ratings=player.avg_ratings %}
+<table border="1" class="w-100 rate-table">
+    {% if player.main_position == 'GK' %}
+    <tr>
+    <td class="average-name">セービングの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.saving__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">ハンドリングの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.handling__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">キックの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.kick__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">ポジショニングの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.positioning__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">反射神経の平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.reflexes__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    {% else %}
+    <tr>
+    <td class="average-name">シュートの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.shoot__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">ドリブルの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.dribble__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">パスの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.pas__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">守備・GKスキルの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.defense__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">フィジカルの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.physical__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">スピードの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.speed__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    {% endif %}
+</table>
+{% endwith %}
+
+<div class="responsive-on">
+    <a class="btn btn-primary" href="{% url 'soccer:comment_form' player.pk %}">コメントを投稿する</a>
+</div>
+<div class="d-flex justify-content-between close-gap mt-5">
+    <h3 class="align-items-center headline3"><i class="fas fa-comments"></i> 各ユーザーの評価（{{ player.num_comments }}件）</h3>
+    <div class="responsive-none">
+        <a class="btn btn-primary" href="{% url 'soccer:comment_form' player.pk %}">コメントを投稿する</a>
+    </div>  
+</div>
+<hr>

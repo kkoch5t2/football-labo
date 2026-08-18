@@ -1,0 +1,27 @@
+<div class="border rounded-lg p-4 mb-4">
+  <h1 class="headline1">{{ object.country.flag|safe }} {{ object.name }}</h1>
+  <p><i class="fas fa-users"></i> 所属チーム：{{ manager.league.flag|safe }} {{ manager.team.name }}</p>
+  <hr>
+  <table border="1" class="w-100 profile-table mt-4">
+      <tr>
+        <td class="profile" colspan="2"><i class="fas fa-address-card"></i> プロフィール</td>
+      </tr>
+      <tr>
+        <td class="content-name">名前</td>
+        <td class="content-field">{{ manager.name }}</td>
+      </tr>  
+      <tr>
+        <td class="content-name">国籍</td>
+        <td class="content-field">{{ manager.country.flag|safe }} {{ manager.country.name }}</td>
+      </tr>
+      <tr>  
+        <td class="content-name">生年月日</td>
+        <td class="content-field">{{ manager.birthday }}</td>
+      </tr>
+      <tr>
+        <td class="content-name">所属チーム</td>
+        <td class="content-field">{{ manager.league.flag|safe }} {{ manager.team.name }}</td>
+      </tr>
+  </table>
+  <div class="text-center mt-4"><a class="btn btn-primary" href="{% url 'soccer:manager_update_request_form' manager.pk %}">更新リクエスト</a></div>
+</div>

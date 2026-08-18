@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn myproject.wsgi_local:application --bind 0.0.0.0:$WEB_PORT
+    expose:
+      - $WEB_PORT
+    restart: always
+    env_file:
+      - ./.env.local
+    volumes:
+      - .:/code/
+      - static:/usr/share/nginx/html/static
+      - media:/usr/share/nginx/html/media
+    depends_on:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:15.4
+    volumes:
+      - postgres_date:/var/lib/postgresql/data/
+    expose:
+      - $DB_PORT:$DB_PORT
+    restart: always
+    env_file:
+      - ./.env.local
+  nginx:
+    container_name: nginx
+    build: ./nginx/local
+    volumes:
+      - static:/usr/share/nginx/html/static
+      - media:/usr/share/nginx/html/media
+    expose:
+      - $NGINX_PORT:$NGINX_PORT
+    restart: always
+    depends_on:
+      - web
+    command: /bin/sh -c "envsubst '$$WEB_PORT$$NGINX_PORT' < /etc/nginx/conf.d/nginx.local.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    environment:
+      - WEB_PORT=$WEB_PORT
+      - NGINX_PORT=$NGINX_PORT
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - $HTTP_PORT:$HTTP_PORT
+      - $HTTPS_PORT:$HTTPS_PORT
+    restart: always
+    environment:
+      STAGE: local
+      DOMAINS: '$LOCAL_DOMAIN -> http://nginx:$NGINX_PORT'
+    volumes:
+      - https-portal-data:/var/lib/https-portal
+volumes:
+  postgres_date:
+  static:
+  media:
+  https-portal-data:

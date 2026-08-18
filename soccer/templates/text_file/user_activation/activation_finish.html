@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}メールアドレス認証完了 | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">メールアドレス認証完了</h1>
+      <p>
+        メールアドレスの認証が完了しました。<br>
+        下記リンクのログインページからログインが可能になります。
+      </p>
+      <a class="btn btn-primary" href="{% url 'soccer:login' %}">ログインページ</a>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}お探しのページが見つかりませんでした | {{ block.super }}{% endblock %}
+{% block description %}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <main class="col-md-8">
+            <div class="border rounded-lg p-4 mb-4">
+                <h1 class="mb-4 headline1">お探しのページが見つかりませんでした</h1>
+		            <hr>
+                <p class="mb-4">
+                    当サイトをご覧頂きありがとうございます。<br>
+                    申し訳ありませんが、アクセスしようとしたページは削除されたかURLが変更されています。<br>
+                    お手数をおかけしますが、以下の検索欄や各リンクからもう一度目的のページをお探しください。
+                </p>
+                <div class="form-center">
+                    <form class="search-flex my-2 my-lg-0" action="{% url 'soccer:search_player' %}" method="GET">
+                      <input class="form-control mr-sm-2" type="search" name="q" value="{{ request.GET.q }}" placeholder="選手検索" aria-label="選手検索" required>
+                      <button class="btn btn-dark my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <br>
+                <div class="top-menu-title-border title-border mt-2">選手</div>
+                <div class="flex text-center">
+                   <div class="top-tow-column-menu-item">
+                      <a href="/player/league/"><i class="fas fa-search"></i> リーグから探す【選手】</a>
+                    </div>
+                    <div class="top-tow-column-menu-item">
+                      <a href="/player/area/"><i class="fas fa-search"></i> 出身地域から探す【選手】</a>
+                    </div>
+                </div>
+                <div class="top-menu-title-border title-border">監督</div>
+                <div class="flex text-center">
+                    <div class="top-tow-column-menu-item">
+                      <a href="/manager/league/"><i class="fas fa-search"></i> カテゴリから探す【監督】</a>
+                    </div>
+                    <div class="top-tow-column-menu-item">
+                      <a href="/manager/area/"><i class="fas fa-search"></i> 出身地域から探す【監督】</a>
+                    </div>
+                </div>
+                <div class="top-menu-title-border title-border">クラブ＆代表</div>
+                <div class="flex text-center">
+                    <div class="top-tow-column-menu-item">
+                      <a href="/league/"><i class="fas fa-search"></i> リーグから探す【クラブ】</a>
+                    </div>
+                    <div class="top-tow-column-menu-item">
+                      <a href="/area/"><i class="fas fa-search"></i> 地域から探す【代表チーム】</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <aside class="col-md-4">
+            {% include "soccer/snippets/sidebar.html" %}
+        </aside>
+    </div>
+</div>
+{% endblock %}

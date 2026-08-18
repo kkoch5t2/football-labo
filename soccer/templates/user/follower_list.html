@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load tag_library %}
+
+{% block title %}{{ user.nickname }}さんのフォロワーリスト | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">{{ user.nickname }}さんのフォロワーリスト</h1>      
+      <div class="list-group mb-3">
+        {% for connection in object_list %}
+        <a href="{% url 'soccer:user_player_comment_list' connection.follower.username %}" class="list-group-item list-group-item-action">
+          <h2 class="card-title player-headline close-gap">{{ connection.follower.nickname }}</h2>
+          <div>@{{ connection.follower.username }}</div>
+          {% if connection.follower.username|following_flg:request.user.get_username %}
+            <span class="connection-flg">フォローされています</span>
+          {% endif %}
+        </a>
+        {% empty %}
+        <div class="text-center my-4">
+          まだフォロワーはいません。
+        </div>
+        {% endfor %}
+      </div>
+      {% include "soccer/snippets/pagination.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

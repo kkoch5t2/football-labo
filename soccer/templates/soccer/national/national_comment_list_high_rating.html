@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}コメント一覧（代表チーム） | {{ block.super }}{% endblock %}
+{% block description %}各国代表チームのコメント一覧ページです。各選手のページに投稿されたコメントをチェックできます。{% endblock %}
+
+{% block navbar %}
+  {% include "base/national_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+        <h1 class="headline1 mb-4"><i class="fas fa-comments"></i> コメント一覧（代表チーム）</h1>
+        <div class="btn-group-vertical w-100 mb-3" role="group">
+            <div class="btn-group w-100" role="group">
+                <a href="{% url 'soccer:national_comment_list' %}" class="btn btn-outline-primary w-50">最新順</a>
+                <a href="{% url 'soccer:national_comment_list_like_count' %}" class="btn btn-outline-primary w-50">いいね数順</a>
+            </div>
+            <div class="btn-group w-100" role="group">
+                <button type="button" class="btn btn-primary w-50 active">高評価順</button>
+                <a href="{% url 'soccer:national_comment_list_low_rating' %}" class="btn btn-outline-primary w-50">低評価順</a>
+            </div>
+        </div>
+        {% for nationalcomment in object_list|slice:":10" %}
+            <div class="card my-4">
+                <div class="card-body">
+                    <a href="{% url 'soccer:national_detail' nationalcomment.country.slug %}"><p>{{ nationalcomment.country.flag|safe }} <strong>{{ nationalcomment.country.name }}代表</a>｜<i class="fas fa-star"></i> 総合評価：{{ nationalcomment.ovr }}/7｜<i class="fas fa-thumbs-up"></i> {{ nationalcomment.like }}いいね</strong></p>
+                    <p>投稿者：{{ nationalcomment.author }}（投稿日：{{ nationalcomment.timestamp }}）</p>
+                    <p>{{ nationalcomment.text|linebreaksbr|truncatechars_html:50 }}</p>
+                    <a href="{% url 'soccer:national_detail' nationalcomment.country.slug %}" class="btn btn-primary"><i class="fas fa-search"></i> 代表チームをチェック</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="text-center my-4">
+              <i class="fas fa-comment-slash"></i> まだ投稿はありません。<br>
+              コメントよろしくお願いします。<br>
+              <a class="btn btn-primary mt-3" href="/area/"><i class="fas fa-search"></i> 地域一覧をチェック</a>
+            </div>
+        {% endfor %}
+        {% include "soccer/snippets/pagination.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

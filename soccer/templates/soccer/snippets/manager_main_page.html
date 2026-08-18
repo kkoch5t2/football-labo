@@ -1,0 +1,38 @@
+{% for manager in object_list %}
+    {% if manager.is_public %}
+        <div class="card my-4">
+            <div class="card-body">
+                {% if not manager.is_public %}
+                <p class="card-title player-headline"><span class="badge badge-secondary">下書き</span></p>
+                {% endif %}
+                <a href="{% url 'soccer:manager_detail' manager.id %}">
+                    <h2 class="card-title player-headline">{{ manager.country.flag|safe }} {{ manager.name }}</h2>
+                </a>
+                <div class="list-item-spacing">
+                    <i class="fas fa-users"></i> 所属チーム：{{ manager.league.flag|safe }} {{ manager.team.name }}
+                </div>
+                <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ manager.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ manager.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+                <a href="{% url 'soccer:manager_detail' manager.id %}" class="btn btn-primary"><i class="fas fa-search"></i> チェックする</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="card my-4">
+            <div class="card-body">
+                <p class="card-title player-headline"><span class="badge badge-secondary">下書き</span></p>
+                <a href="{% url 'soccer:manager_detail' manager.id %}">
+                    <h2 class="card-title player-headline">{{ manager.country.flag|safe }} {{ manager.name }}</h2>
+                </a>
+                <div class="list-item-spacing">
+                    <i class="fas fa-users"></i> 所属チーム：{{ manager.league.flag|safe }} {{ manager.team.name }}
+                </div>
+                <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ manager.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ manager.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+                <a href="{% url 'soccer:manager_detail' manager.id %}" class="btn btn-primary"><i class="fas fa-search"></i> チェックする</a>
+            </div>
+        </div>
+    {% endif %}
+{% empty %}
+    <div class="text-center my-4">
+        <i class="fas fa-user-slash"></i> まだ投稿はありません。<br>
+        追加リクエストフォームから追加してほしい監督をリクエストできます。
+    </div>
+{% endfor %}

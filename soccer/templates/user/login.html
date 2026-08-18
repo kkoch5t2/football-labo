@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}ログイン | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% if messages %}
+        <div class="messages_ul">
+          {% for message in messages %}
+            <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert" style="list-style: none;"><i class="fas fa-exclamation-triangle"></i> {{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <h1 class="mb-4 headline1"><i class="fas fa-user-check"></i> ログイン</h1>
+      <form action="{% url 'soccer:login' %}" method="post">
+        {% csrf_token %}
+        <p>
+          <label>ユーザー名 ※@は不要です</label>
+          {{ form.username }}
+        </p>
+        <p>
+          <label>パスワード</label>
+          {{ form.password }}
+        </p>
+        {{ form.captcha }}
+        <p><input type="submit" class="btn btn-primary mt-2" value="ログイン"></p>
+      </form>
+      <p class="mt-4"><a href="{% url 'soccer:password_reset'%}">パスワードを再発行する</a></p>
+      <p><a href="{% url 'soccer:signup'%}">ユーザー登録</a></p>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

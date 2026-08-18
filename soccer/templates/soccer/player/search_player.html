@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{% if query %}{{ query }}{% endif %}の検索結果 | {{ block.super }}{% endblock %}
+{% block description %}検索ワード「{% if query %}{{ query }}{% endif %}」での検索結果ページです。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1"><i class="fas fa-search"></i>「{% if query %}{{ query }}{% endif %}」の検索結果</h1>
+      <p class="text-right">{{ page_obj.start_index }}-{{ page_obj.end_index }}件（{{ paginator.count }}件）</p>
+      <div class="form-center mb-3">
+        <form class="search-flex my-2 my-lg-0" action="{% url 'soccer:search_player' %}" method="GET">
+          <input class="form-control mr-sm-2" type="search" name="q" value="{{ request.GET.q }}" placeholder="選手検索" aria-label="選手検索" required>
+          <button class="btn btn-dark my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+      {% include "soccer/snippets/main_page.html" %}
+      {% include "soccer/snippets/pagination.html" %}
+      <div class="text-center my-4">
+        <a class="btn btn-primary" href="/request/">追加リクエスト</a>
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ユーザーアイコン変更 | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">プロフィール画像変更</h1>
+      <p>現在のプロフィール画像</p>
+      {% if user.user_icon %}
+        <img src="{{ user.user_icon.url }}" alt="{{ user.username }}" class="headline-team user-icon">
+      {% else %}
+        <img src="{% static 'soccer/img/default_user_icon.png' %}" alt="{{ user.username }}" class="headline-team user-icon">
+      {% endif %}
+      <form method="post" class="mt-4" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <p>
+          <label>新しいプロフィール画像</label><br>
+          <label class="profile_image">{{ form.user_icon }}ファイルを選択</label>
+          <div class="purofile_image_file_name">選択されていません</div>
+          <img id="preview" class="user-icon display-none">
+        </p>
+        {{ form.errors.user_icon }}
+        <p><input type="submit" class="btn btn-primary mt-3" value="ユーザーアイコン変更"></p>
+      </form>
+      <a href="{% url 'soccer:user_settings' %}" class="btn btn-secondary">戻る</a>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript"> 
+$('.profile_image_input').on('change', function () {
+    var file = $(this).prop('files')[0];
+    $('.purofile_image_file_name').text(file.name);
+});
+
+$('.profile_image_input').on('change', function (e) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        $("#preview").attr('src', e.target.result);
+        $("#preview").removeClass("display-none");
+        $("#preview").addClass("display")
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+</script>
+{% endblock %}

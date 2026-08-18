@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}マイページ | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% include "user/snippets/user_detail_area.html" %}
+      <div class="btn-group-vertical w-100 mb-3" role="group">
+        <div class="btn-group w-100" role="group">
+          <a href="{% url 'soccer:user_player_comment_list' request_user.username %}" class="btn btn-outline-primary w-50">過去の投稿一覧</a>
+          <button type="button" class="btn btn-primary w-50 active">いいねした投稿一覧</button>
+        </div>
+        <div class="btn-group w-100" role="group">
+          <button type="button" class="btn btn-primary w-25 active">選手</button>
+          <a href="{% url 'soccer:user_like_manager_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">監督</a>
+          <a href="{% url 'soccer:user_like_club_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">クラブ</a>
+          <a href="{% url 'soccer:user_like_national_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">代表</a>
+        </div>
+      </div>
+      {% for likeipaddress in object_list %}
+        <div class="card my-4">
+          <div class="card-body">
+            <a href="{% url 'soccer:player_detail' likeipaddress.player_comment.player.id %}"><p>{{ likeipaddress.player_comment.player.country.flag|safe }} <strong>{{ likeipaddress.player.name }}</a>｜<i class="fas fa-star"></i> 総合評価：{{ likeipaddress.player_comment.ovr }}/7｜<i class="fas fa-thumbs-up"></i> {{ likeipaddress.player_comment.like }}いいね</strong></p>
+            <p>投稿者：{% if likeipaddress.player_comment.user %}{{ likeipaddress.player_comment.user.nickname }}{% else %}{{ likeipaddress.player_comment.author }}{% endif %}（投稿日：{{ likeipaddress.player_comment.timestamp }}）</p>
+            <p>{{ likeipaddress.player_comment.text|linebreaksbr|truncatechars_html:50 }}</p>
+            <a href="{% url 'soccer:player_detail' likeipaddress.player_comment.player.id %}" class="btn btn-primary"><i class="fas fa-search"></i> 選手をチェックする</a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="text-center my-4">
+          <i class="fas fa-comment-slash"></i> まだいいねした投稿はありません。<br>
+        </div>
+      {% endfor %}
+      {% include "soccer/snippets/pagination.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

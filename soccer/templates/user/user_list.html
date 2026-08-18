@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load tag_library %}
+
+{% block title %}{% if query %}{{ query }}の検索結果{% else %}ユーザー検索{% endif %} | {{ block.super }}{% endblock %}
+{% block description %}検索ワード「{% if query %}{{ query }}{% endif %}」での検索結果ページです。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">
+        {% if query %}
+        <i class="fas fa-search"></i>「{{ query }}」の検索結果
+        {% else %}
+        <i class="fas fa-search"></i> ユーザー一覧
+        {% endif %}
+      </h1>
+      <div class="form-right mb-3">
+        <form class="search-flex my-2 my-lg-0" action="{% url 'soccer:user_list' %}" method="GET">
+          <input class="form-control mr-sm-2" type="search" name="q" value="{{ request.GET.q }}" placeholder="ユーザー検索" aria-label="ユーザー検索" required>
+          <button class="btn btn-dark my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+      {% if query %}
+        <p class="text-right">{{ page_obj.start_index }}-{{ page_obj.end_index }}件（{{ paginator.count }}件）</p>
+      {% endif %}
+      <div class="list-group mb-3">
+        {% for customuser in object_list %}
+        <a href="{% url 'soccer:user_player_comment_list' customuser.username %}" class="list-group-item list-group-item-action">
+          <h2 class="card-title player-headline">{{ customuser.nickname }}</h2>
+          <div>@{{ customuser.username }}</div>
+          {% if customuser.username|following_flg:request.user.get_username %}
+            <span class="connection-flg">フォローされています</span>
+          {% endif %}
+        </a>
+        {% empty %}
+        <div class="text-center my-4">
+          ユーザーが存在しません。
+        </div>
+        {% endfor %}
+      </div>
+      {% include "soccer/snippets/pagination.html" %}
+      {% if not user.is_authenticated %}
+      <div class="text-center my-4">
+        <a class="btn btn-primary" href="/signup/">新規ユーザー登録</a>
+        <a class="btn btn-primary" href="/login/">ログイン</a>
+      </div>
+      {% endif %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

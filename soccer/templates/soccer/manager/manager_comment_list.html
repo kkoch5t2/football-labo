@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}コメント一覧（監督） | {{ block.super }}{% endblock %}
+{% block description %}監督のコメント一覧ページです。各選手のページに投稿されたコメントをチェックできます。{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+        <h1 class="headline1 mb-4"><i class="fas fa-comments"></i> コメント一覧（監督）</h1>
+        <div class="btn-group-vertical w-100 mb-3" role="group">
+            <div class="btn-group w-100" role="group">
+                <button type="button" class="btn btn-primary w-50 active">最新順</button>
+                <a href="{% url 'soccer:manager_comment_list_like_count' %}" class="btn btn-outline-primary w-50">いいね数順</a>
+            </div>
+            <div class="btn-group w-100" role="group">
+                <a href="{% url 'soccer:manager_comment_list_high_rating' %}" class="btn btn-outline-primary w-50">高評価順</a>
+                <a href="{% url 'soccer:manager_comment_list_low_rating' %}" class="btn btn-outline-primary w-50">低評価順</a>
+            </div>
+        </div>
+        {% for managercomment in object_list|slice:":10" %}
+          <div class="card my-4">
+            <div class="card-body">
+              <a href="{% url 'soccer:manager_detail' managercomment.manager.id %}"><p>{{ managercomment.manager.country.flag|safe }} <strong>{{ managercomment.manager.name }}</a>｜<i class="fas fa-star"></i> 総合評価：{{ managercomment.ovr }}/7｜<i class="fas fa-thumbs-up"></i> {{ managercomment.like }}いいね</strong></p>
+              <p>投稿者：{{ managercomment.author }}（投稿日：{{ managercomment.timestamp }}）</p>
+              <p>{{ managercomment.text|linebreaksbr|truncatechars_html:50 }}</p>
+              <a href="{% url 'soccer:manager_detail' managercomment.manager.id %}" class="btn btn-primary"><i class="fas fa-search"></i> 監督をチェックする</a>
+            </div>
+          </div>
+        {% empty %}
+          <div class="text-center my-4">
+            <i class="fas fa-comment-slash"></i> まだ投稿はありません。<br>
+            コメントよろしくお願いします。<br>
+            <a class="btn btn-primary mt-3" href="/manager/"><i class="fas fa-search"></i> 監督一覧をチェック</a>
+          </div>
+        {% endfor %}
+        {% include "soccer/snippets/pagination.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

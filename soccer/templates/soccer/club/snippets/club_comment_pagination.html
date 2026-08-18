@@ -1,0 +1,53 @@
+{% if club_comments.has_other_pages %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+    {% if club_comments.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ club_comments.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+        </a>
+        </li>
+    {% endif %}
+
+    {% if club_comments.has_previous %}
+        {% if club_comments.previous_page_number != 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+        <p class="mx-2">…</p>
+        {% endif %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ club_comments.previous_page_number }}">{{ club_comments.previous_page_number }}</a>
+        </li>
+    {% endif %}
+    
+    <li class="page-item active">
+        <div class="page-link" href="#">{{ club_comments.number }}</div>
+    </li>
+
+    {% if club_comments.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ club_comments.next_page_number }}">{{ club_comments.next_page_number }}</a>
+        </li>
+        {% if club_comments.next_page_number != club_comments.paginator.num_pages %}
+        <p class="mx-2">…</p>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ club_comments.paginator.num_pages }}">{{ club_comments.paginator.num_pages }}</a>
+        </li>
+        {% endif %}
+    {% endif %}
+    {% if club_comments.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ club_comments.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+        </a>
+        </li>
+    {% endif %}
+    </ul>
+</nav>
+{% endif %}
+<div class="text-center mt-4">
+    <a class="btn btn-primary" href="{% url 'soccer:club_comment_form' team.slug %}">コメントを投稿する</a>
+</div>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ country.name }}国籍の選手一覧 | {{ block.super }}{% endblock %}
+{% block description %}{{ country.name }}国籍の選手一覧のページです。詳細ページから選手の評価をチェック・投稿できます。お探しの選手が見つからない場合は選手追加のリクエストができます。{% endblock %}
+
+{% block navbar %}
+{% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="align-items-center headline1 mb-4">{{ country.flag|safe }} {{ country.name|safe }}国籍の選手一覧</h1>
+      {% if object_list.0 is not null and object_list.1 is not null %}
+      <div class="btn-group-vertical w-100 mb-3" role="group">
+        <div class="btn-group w-100" role="group">
+          <button type="button" class="btn btn-primary w-50 active">最新順</button>
+          <a href="{% url 'soccer:country_player_list_comment_count' country.slug %}"
+            class="btn btn-outline-primary w-50">コメント数順</a>
+        </div>
+        <div class="btn-group w-100" role="group">
+          <a href="{% url 'soccer:country_player_list_avg_rating' country.slug %}"
+            class="btn btn-outline-primary w-50">平均総合評価順</a>
+          <a href="{% url 'soccer:country_position_list' country.slug %}" class="btn btn-outline-primary w-50">ポジション別</a>
+        </div>
+      </div>
+      {% endif %}
+      {% include "soccer/snippets/main_page.html" %}
+      {% include "soccer/snippets/pagination.html" %}
+      <div class="text-center my-4">
+        <a class="btn btn-primary" href="/request/">追加リクエスト</a>
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

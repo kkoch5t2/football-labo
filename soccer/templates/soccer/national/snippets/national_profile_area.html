@@ -1,0 +1,35 @@
+<div class="border rounded-lg p-4 mb-4">
+    <h1 class="headline1">{{ country.flag|safe }} {{ country.name }}代表</h1>
+    <p><i class="fas fa-globe"></i> 地域：{{ country.area.name }}</p>
+    <hr>          
+    <table border="1" class="w-100 profile-table mt-4">
+        <tr>
+        <td class="profile" colspan="2"><i class="fas fa-list-alt"></i> プロフィール</td>
+        </tr>
+        <tr>
+        <td class="content-name">国名</td>
+        <td class="content-field">{{ country.flag|safe }} {{ country.name }}</td>
+        </tr>  
+        <tr>
+        <td class="content-name">首都</td>
+        <td class="content-field">{{ country.capital }}</td>
+        </tr>
+        <tr>  
+        <td class="content-name">地域</td>
+        <td class="content-field">{{ country.area }}</td>
+        </tr>
+        <tr>  
+        <td class="content-name">協会・連盟</td>
+        <td class="content-field">{{ country.association }}</td>
+        </tr>
+        <tr>
+        <td class="content-name">選手</td>
+        <td class="content-field">
+            <a href="{% url 'soccer:country_player_list' country.slug %}">選手一覧はこちら</a>
+        </td>
+        </tr>
+    </table>
+    <div class="text-center mt-4">
+        <a class="btn btn-primary" href="{% url 'soccer:national_team_update_request_form' country.slug %}">更新リクエスト</a>
+    </div>
+</div>

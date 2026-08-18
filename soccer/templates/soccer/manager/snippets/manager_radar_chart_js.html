@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    var ctx = document.getElementById("radar-chart");
+    ctx.height = 220;
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['攻撃戦術', '守備戦術', '実績', 'マネジメント', '育成力', '政治力'],
+            datasets:[ 
+                {
+                    label: "平均評価",
+                    data: [
+                        '{{ manager.avg_ratings.attack__avg|floatformat:"1"|default:0 }}', 
+                        '{{ manager.avg_ratings.defense__avg|floatformat:"1"|default:0 }}', 
+                        '{{ manager.avg_ratings.achievement__avg|floatformat:"1"|default:0 }}', 
+                        '{{ manager.avg_ratings.management__avg|floatformat:"1"|default:0 }}', 
+                        '{{ manager.avg_ratings.development__avg|floatformat:"1"|default:0 }}',
+                        '{{ manager.avg_ratings.political__avg|floatformat:"1"|default:0 }}'
+                    ],
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 0.9)',
+                    pointBackgroundColor: 'rgba(255, 99, 132, 0.9)',
+                    pointBorderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 4,
+                    pointRadius: 4,
+                }
+            ]
+        },
+        options : {
+            scale: {
+                pointLabels: {
+                fontSize: 13
+                },
+                ticks: {
+                max: 7,
+                min: 0,
+                stepSize: 1,
+                fontSize: 13,
+                backdropColor: 'rgba(255, 255, 255, 0)',
+                }
+            },
+            tooltips:{
+                titleFontSize: 13,
+                bodyFontSize: 13,
+            }
+        }
+    });
+</script>

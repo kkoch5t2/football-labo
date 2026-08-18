@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }}｜監督専用トップページ{% endblock %}
+{% block description %}プロサッカー選手のレビューサイト「みんなのサッカーラボ」の監督専用トップページです。みんなが投稿した評価コメントをチェックや評価コメントの投稿ができます。コメントの投稿は誰でも可能ですのでお気軽にコメントください。{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <div class="border rounded-lg p-4 mb-4">
+        <h1 class="mb-4 headline1"><i class="far fa-futbol"></i> みんなのサッカーラボ｜監督専用トップ</h1>
+        <hr>
+        <p>
+          「みんなのサッカーラボ」の監督専用トップページです。<br>
+          各監督に対する評価コメントの投稿やみんなの評価コメントをチェックできます。<br>
+          お探しの監督がいましたら以下の検索欄またはリンクからお探しください。
+        </p>
+        <br>
+        <div class="form-center mb-3">
+          <form class="search-flex my-2 my-lg-0" action="{% url 'soccer:search_manager' %}" method="GET">
+            <input class="form-control mr-sm-2" type="search" name="q" value="{{ request.GET.q }}" placeholder="監督検索" aria-label="監督検索" required>
+            <button class="btn btn-dark my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+        <br>
+        <div class="flex text-center">
+          <div class="top-tow-column-menu-item">
+            <a href="/manager/league/"><i class="fas fa-search"></i> リーグから探す</a>
+          </div>
+          <div class="top-tow-column-menu-item">
+            <a href="/manager/area/"><i class="fas fa-search"></i> 出身地域から探す</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border rounded-lg p-4 mb-4">
+        <h2 class="headline2"><i class="fas fa-user"></i> 新着監督一覧</h2>
+        <hr>
+        {% for manager in object_list|slice:":5" %}
+          {% if manager.is_public %}
+            <a href="{% url 'soccer:manager_detail' manager.id %}">
+              <h3 class="player-headline">{{ manager.country.flag|safe }} {{ manager.name }}</h3>
+            </a>
+            <div class="list-item-spacing">
+              <i class="fas fa-users"></i> 所属チーム：{{ manager.league.flag|safe }} {{ manager.team.name }}</div>
+            <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ manager.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ manager.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+            <hr>
+          {% endif %}
+        {% empty %}
+          <div class="text-center mb-3">
+            <i class="fas fa-user-alt-slash"></i> まだ投稿はありません。
+          </div>
+        {% endfor %}
+        <div class="text-center">
+          <a class="btn btn-primary" href="/manager/list/"><i class="fas fa-check-circle"></i> 他の選手もチェックする</a>
+        </div>
+      </div>
+
+      <div class="border rounded-lg p-4 mb-4">
+        <h2 class="headline2"><i class="fas fa-comments"></i> 新着コメント一覧</h2>
+        <hr>
+        {% for comment in comment_list|slice:":5" %}
+            <a href="{% url 'soccer:manager_detail' comment.manager.id %}"><p>{{ comment.manager.country.flag|safe }} <strong>{{ comment.manager.name }}</a>｜<i class="fas fa-star"></i> 総合評価：{{ comment.ovr }}/7｜<i class="fas fa-thumbs-up"></i> {{ comment.like }}いいね</strong></p>
+            <p>投稿者：{{ comment.author }}（投稿日：{{ comment.timestamp }}）</p>
+            <p>{{ comment.text|linebreaksbr|truncatechars_html:50 }}</p>
+            <hr>
+        {% empty %}
+          <div class="text-center mb-3">
+            <i class="fas fa-comment-slash"></i> まだ投稿はありません。
+          </div>
+        {% endfor %}
+        <div class="text-center">
+          <a class="btn btn-primary" href="/manager/comment/list/"><i class="fas fa-check-circle"></i> 他のコメントもチェックする</a>
+        </div>
+      </div>
+
+
+      <div class="mb-4">
+        {% include "soccer/snippets/google_adsense_code.html" %}
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

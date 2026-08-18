@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}メールアドレス変更完了 | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">メールアドレス変更</h1>
+      <p>
+        登録されたメールアドレスにメールを送信しました。<br>
+        メールに記載されているリンクから本登録を完了させてください。
+      </p>
+      <p><a class="mb-3" href="{% url 'soccer:user_settings' %}">プロフィール編集に戻る</a></p>
+      <p><a href="{% url 'soccer:user_player_comment_list' user.username %}">マイページに戻る</a></p>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

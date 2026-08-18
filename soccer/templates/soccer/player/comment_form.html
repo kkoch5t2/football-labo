@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}コメント投稿フォーム | {{ block.super }}{% endblock %}
+{% block description %}{{ player.name }}のコメント投稿フォームのページです。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% if messages %}
+        <div class="messages_ul">
+          {% for message in messages %}
+            <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert" style="list-style: none;"><i class="fas fa-exclamation-triangle"></i> {{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <h1 class="mb-4 headline1"><i class="fas fa-comment"></i> コメント投稿フォーム</h1>
+      <p>「<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>」へのコメント投稿</p>
+      <form method="POST">
+        {% csrf_token %}
+        <p>
+          <label>名前</label>
+          {{ form.author }}
+        </p>
+        <p>
+          <label>総合評価</label>
+          {{ form.ovr }}
+        </p>
+        {% if player.main_position == 'GK' %}
+        <p>
+          <label>セービングの評価</label>
+          {{ form.saving }}
+        </p>
+        <p>
+          <label>ハンドリングの評価</label>
+          {{ form.handling }}
+        </p>
+        <p>
+          <label>キックの評価</label>
+          {{ form.kick }}
+        </p>
+        <p>
+          <label>ポジショニングの評価</label>
+          {{ form.positioning }}
+        </p>
+        <p>
+          <label>反射神経の評価</label>
+          {{ form.reflexes }}
+        </p>
+        <p>
+          <label>コメント（700字まで）</label>
+          {{ form.text }}
+        </p>
+        {% else %}
+        <p>
+          <label>シュートの評価</label>
+          {{ form.shoot }}
+        </p>
+        <p>
+          <label>ドリブルの評価</label>
+          {{ form.dribble }}
+        </p>
+        <p>
+          <label>パスセンスの評価</label>
+          {{ form.pas }}
+        </p>
+        <p>
+          <label>守備力の評価</label>
+          {{ form.defense }}
+        </p>
+        <p>
+          <label>フィジカルの評価</label>
+          {{ form.physical }}
+        </p>
+        <p>
+          <label>スピードの評価</label>
+          {{ form.speed }}
+        </p>
+        <p>
+          <label>コメント（700字まで）</label>
+          {{ form.text }}
+        </p>
+        {% endif %}
+        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> 送信</button>
+      </form>
+      <p class="mt-4">
+	      <i class="fas fa-exclamation-triangle"></i> 連投防止のため1選手につき1人1コメントまでとしていますが、一度コメントした選手に対しても投稿日から1か月後に再度コメントできます。<br>
+        <i class="fas fa-exclamation-triangle"></i> 当サイトの<a href="/pages/privacy/">プライバシーポリシー（当サイトへのコメントについて）</a>に規定した内容に反するコメントを投稿した場合はコメントを削除することとなりますので良識あるコメントの投稿をよろしくお願いします。
+      </p>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

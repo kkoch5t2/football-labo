@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form.name.value }}のプロフィール更新リクエスト | {{ block.super }}{% endblock %}
+{% block description %}{{ form.name.value }}のプロフィール更新リクエストが行えます。ページの内容と現在の情報が異なる場合は更新リクエストをお願い致します{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1"><i class="far fa-edit"></i> {{ form.name.value }}のプロフィール更新依頼フォーム</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <p>
+          <label>名前</label>
+          {{ form.name }}
+        </p>
+        <p>
+          <label>リーグ</label>
+          {{ form.league }}
+        </p>
+        <p>
+          <label>創設年（半角数字）</label>
+          {{ form.year_established }}
+        </p>
+        <p>
+          <label>ホームタウン</label>
+          {{ form.home_town }}
+        </p>
+        {{ form.captcha }}
+        <button type="submit" class="btn btn-primary mb-3"><i class="fas fa-paper-plane"></i> 送信</button>
+      </form>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

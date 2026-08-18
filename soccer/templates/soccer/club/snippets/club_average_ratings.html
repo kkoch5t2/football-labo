@@ -1,0 +1,49 @@
+<h2 class="close-gap headline2"><i class="fas fa-clipboard"></i> {{ team.name }}に対するみんなの評価（平均値）</h2>
+<hr>
+{% with avg_ratings=team.avg_ratings %}
+<table border="1" class="w-100 mb-4 rate-table">
+    <tr>
+    <td class="average-name text-center">平均総合評価</td>
+    </tr>
+    <tr>
+    <td class="average-value all-average-value text-center"><i class="fas fa-star"></i> {{ avg_ratings.ovr__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+</table>
+{% endwith %}
+<div class="canvas-container mb-4">
+    <canvas id="radar-chart"></canvas>
+</div>
+{% with avg_ratings=team.avg_ratings %}
+<table border="1" class="w-100 rate-table">
+    <tr>
+    <td class="average-name">攻撃力の平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.attack__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">守備力の平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.defense__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">監督・コーチの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.manager__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">フロントの平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.front__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+    <tr>
+    <td class="average-name">育成力の平均評価</td>
+    <td class="average-value"><i class="fas fa-star"></i>{{ avg_ratings.development__avg|floatformat:"1"|default:0 }} / 7.0</td>
+    </tr>
+</table>
+{% endwith %}
+<div class="responsive-on">
+    <a class="btn btn-primary" href="{% url 'soccer:club_comment_form' team.slug %}">コメントを投稿する</a>
+</div>
+<div class="d-flex justify-content-between close-gap mt-5">
+    <h3 class="align-items-center headline3"><i class="fas fa-comments"></i> 各ユーザーの評価（{{ team.num_comments }}件）</h3>
+    <div class="responsive-none">
+        <a class="btn btn-primary" href="{% url 'soccer:club_comment_form' team.slug %}">コメントを投稿する</a>
+    </div>  
+</div>
+<hr>

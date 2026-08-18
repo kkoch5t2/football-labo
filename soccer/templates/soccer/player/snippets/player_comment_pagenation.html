@@ -1,0 +1,53 @@
+{% if comments.has_other_pages %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+    {% if comments.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ comments.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+        </a>
+        </li>
+    {% endif %}
+
+    {% if comments.has_previous %}
+        {% if comments.previous_page_number != 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+        <p class="mx-2">…</p>
+        {% endif %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ comments.previous_page_number }}">{{ comments.previous_page_number }}</a>
+        </li>
+    {% endif %}
+    
+    <li class="page-item active">
+        <div class="page-link" href="#">{{ comments.number }}</div>
+    </li>
+
+    {% if comments.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ comments.next_page_number }}">{{ comments.next_page_number }}</a>
+        </li>
+        {% if comments.next_page_number != comments.paginator.num_pages %}
+        <p class="mx-2">…</p>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ comments.paginator.num_pages }}">{{ comments.paginator.num_pages }}</a>
+        </li>
+        {% endif %}
+    {% endif %}
+    {% if comments.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ comments.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+        </a>
+        </li>
+    {% endif %}
+    </ul>
+</nav>
+{% endif %}
+<div class="text-center">
+    <a class="btn btn-primary" href="{% url 'soccer:comment_form' player.pk %}">コメントを投稿する</a>
+</div>

@@ -1,0 +1,20 @@
+下記内容のお問い合わせが届きました。
+
+━━━　お問い合わせ内容　━━━
+
+【お名前】
+{{form_name}}
+
+【メールアドレス】
+{{form_email}}
+
+【件名】
+{{form_subject}}
+
+【お問い合わせ内容】
+{{form_inquiry_details}}
+
+━━━━━━━━━━━━━━━━
+
+下記リンクよりお問い合わせ内容を確認し、返信を行ってください。
+https://<your_domain>/<your_admin_url>/soccer/contact/

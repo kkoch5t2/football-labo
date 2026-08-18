@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}ユーザー登録 | {{ block.super }}{% endblock %}
+{% block description %}みんなのサッカーラボのユーザー登録ページです。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1"><i class="fas fa-user-plus"></i> 新規ユーザー登録</h1>
+      <form action="{% url 'soccer:signup' %}" method="post">
+        {% csrf_token %}
+        <p>
+          <label>ユーザー名</label>
+          {{ form.username }}
+          {{ form.errors.username }}
+        </p>
+        <p>
+          <label>ニックネーム</label>
+          {{ form.nickname }}
+          {{ form.errors.nickname }}
+        </p>
+        <p>
+          <label>メールアドレス</label>
+          {{ form.email }}
+          {{ form.errors.email }}
+        </p>
+        <p>
+          <label>パスワード</label>
+          {{ form.password1 }}
+          {{ form.errors.password1 }}
+        </p>
+        <p>
+          <label>パスワード（確認用）</label>
+          {{ form.password2 }}
+          {{ form.errors.password2 }}
+        </p>
+        {{ form.captcha }}
+        <p><input type="submit" class="btn btn-primary mt-3" value="登録"></p>
+      </form>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript"> 
+$('.profile_image_input').on('change', function () {
+    var file = $(this).prop('files')[0];
+    $('.purofile_image_file_name').text(file.name);
+});
+</script>
+{% endblock %}

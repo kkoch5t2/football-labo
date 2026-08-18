@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ area.name }}の国一覧（監督） | {{ block.super }}{% endblock %}
+{% block description %}{{ area.name }}の国一覧からサッカー監督を探せます。お探しの監督がいましたら該当する国をチェックしてみてください。{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="headline1"><i class="fas fa-globe"></i> {{ area.name }}の国一覧（監督）</h1>
+      <div class="flex-wrapper">
+        {% for country in object_list %}
+          {% if country.is_public %}
+            <div class="item-wrapper">
+              <a href="{% url 'soccer:country_manager_list' country.slug %}">
+                {{ country.flag|safe }} {{ country.name }}
+              </a>
+              ({{ country.num_managers }})
+            </div>
+          {% endif %}
+        {% empty %}
+            <div>まだ投稿はありません。</div>
+        {% endfor %}
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

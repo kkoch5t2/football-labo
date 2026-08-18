@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}監督ページ新規追加リクエスト | {{ block.super }}{% endblock %}
+{% block description %}監督ページの新規追加リクエストが行えます。評価したい監督がいる場合はリクエストしてみてください。{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1"><i class="far fa-edit"></i> 監督新規追加依頼フォーム</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <p>
+          <label>所属リーグ</label>
+          {{ form.league }}
+        </p>
+        <p>
+          <label>所属チーム（先に所属リーグを選択してください）</label>
+          {{ form.team }}
+        </p>
+        <p>
+          <label>出身地域</label>
+          {{ form.area }}
+        </p>
+        <p>
+          <label>国籍（先に出身地域を選択してください）</label>
+          {{ form.country }}
+        </p>
+        <p>
+          <label>名前</label>
+          {{ form.name }}
+        </p>
+        <p>
+          <label>生年月日</label>
+          {{ form.birthday }}
+        </p>
+        <div class="top-menu-title-border title-border my-5">上記監督の評価コメント↓</div>
+        <p>
+          <label>名前</label>
+          {{ form.author }}
+        </p>
+        <p>
+          <label>総合評価</label>
+          {{ form.ovr }}
+        </p>
+        <p>
+          <label>攻撃戦術の評価</label>
+          {{ form.attack_rating }}
+        </p>
+        <p>
+          <label>守備戦術の評価</label>
+          {{ form.defense_rating }}
+        </p>
+        <p>
+          <label>実績の評価</label>
+          {{ form.achievement_rating }}
+        </p>
+        <p>
+          <label>マネジメントの評価</label>
+          {{ form.management_rating }}
+        </p>
+        <p>
+          <label>育成の評価</label>
+          {{ form.development_rating }}
+        </p>
+        <p>
+          <label>政治力の評価</label>
+          {{ form.political_rating }}
+        </p>
+        <p>
+          <label>コメント（700字まで）</label>
+          {{ form.comment_text }}
+        </p>
+        {{ form.captcha }}
+        <button type="submit" class="btn btn-primary mb-3"><i class="fas fa-paper-plane"></i> 送信</button>
+      </form>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script type="text/javascript">
+  $(function () {
+  // inspect html to check id of category select dropdown.
+      $(document).on("change", "select#id_league", function () {
+          $.getJSON("/getTeam/", { id: $(this).val() }, function (j) {
+              var options = '<option value="">---------</option>';
+              for (var i = 0; i < j.length; i++) {
+                  options +=
+                  '<option value="' + j[i].id + '">' + j[i].name + "</option>";
+              }
+              // inspect html to check id of subcategory select dropdown.
+              $("select#id_team").html(options);
+          });
+      });
+  });
+
+  $(function () {
+  // inspect html to check id of category select dropdown.
+      $(document).on("change", "select#id_area", function () {
+          $.getJSON("/getCountry/", { id: $(this).val() }, function (j) {
+              var options = '<option value="">---------</option>';
+              for (var i = 0; i < j.length; i++) {
+                  options +=
+                  '<option value="' + j[i].id + '">' + j[i].name + "</option>";
+              }
+              // inspect html to check id of subcategory select dropdown.
+              $("select#id_country").html(options);
+          });
+      });
+  });
+</script>
+{% endblock %}

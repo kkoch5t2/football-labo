@@ -1,0 +1,106 @@
+<div class="card mb-3">
+    <div class="card-header bg-dark text-white">
+      <i class="fas fa-running"></i> 選手メニュー
+    </div>
+    <div class="card-header">
+      <i class="fas fa-flag"></i> リーグ
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for league in leagues|dictsort:"name" %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'soccer:player_league_team' league.slug %}" class="card-link">・{{ league.name }}</a>
+        <span class="badge badge-primary badge-pill">{{ league.num_teams }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="card-header">
+      <i class="fas fa-globe"></i> 地域
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for area in manager_areas|dictsort:"name" %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'soccer:player_area_country' area.slug %}" class="card-link">・{{ area.name }}</a>
+          <span class="badge badge-primary badge-pill">{{ area.num_countries }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header bg-dark text-white">
+    <i class="fas fa-user"></i> 監督メニュー
+  </div>
+  <div class="card-header">
+    <i class="fas fa-flag"></i> リーグ
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for league in manager_leagues|dictsort:"name" %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'soccer:manager_league_team' league.slug %}" class="card-link">・{{ league.name }}</a>
+      <span class="badge badge-primary badge-pill">{{ league.num_teams }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="card-header">
+    <i class="fas fa-globe"></i> 地域
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for area in manager_areas|dictsort:"name" %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'soccer:manager_area_country' area.slug %}" class="card-link">・{{ area.name }}</a>
+        <span class="badge badge-primary badge-pill">{{ area.num_countries }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-dark text-white">
+      <i class="fas fa-users"></i> チームメニュー
+    </div>
+    <div class="card-header">
+      <i class="fas fa-flag"></i> リーグ
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for league in club_leagues|dictsort:"name" %}
+        {% if league.name != "その他" %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'soccer:league_club' league.slug %}" class="card-link">・{{ league.name }}</a>
+            <span class="badge badge-primary badge-pill">{{ league.num_teams }}</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <div class="card-header">
+      <i class="fas fa-globe"></i> 地域
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for area in national_areas|dictsort:"name" %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'soccer:area_national' area.slug %}" class="card-link">・{{ area.name }}</a>
+          <span class="badge badge-primary badge-pill">{{ area.num_countries }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+</div>
+
+<a class="btn btn-primary w-100 mb-3" href="/request/"><i class="fas fa-user-plus"></i> 追加リクエスト</a>
+
+<a class="btn btn-primary w-100 mb-3" href="/contact/"><i class="fas fa-envelope"></i> お問い合わせ</a>
+
+<a class="btn btn-primary w-100 mb-4" href="https://twitter.com/football_labo21" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i> Twitterアカウント</a>
+
+<div class="mb-4">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677179691441346"
+         crossorigin="anonymous"></script>
+    <!-- football-labo（サイドバー） -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-7677179691441346"
+         data-ad-slot="5891993530"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>

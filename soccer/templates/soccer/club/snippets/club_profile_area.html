@@ -1,0 +1,35 @@
+<div class="border rounded-lg p-4 mb-4">
+    <h1 class="headline1"><img src="{{ team.image.url }}" alt="{{ team.name }}" class="headline-team"> {{ object.name }}</h1>
+    <p><i class="fas fa-flag"></i> リーグ：{{ object.league.flag|safe }} {{ object.league }}リーグ</p>
+    <hr>
+    <table border="1" class="w-100 profile-table mt-4">
+        <tr>
+          <td class="profile" colspan="2"><i class="fas fa-list-alt"></i> プロフィール</td>
+        </tr>
+        <tr>
+          <td class="content-name">クラブ名</td>
+          <td class="content-field">{{ team.name }}</td>
+        </tr>  
+        <tr>
+          <td class="content-name">リーグ（国）</td>
+          <td class="content-field">{{ team.league.flag|safe }} {{ team.league }}リーグ</td>
+        </tr>
+        <tr>  
+          <td class="content-name">創設年</td>
+          <td class="content-field">{{ team.year_established }}年</td>
+        </tr>
+        <tr>
+          <td class="content-name">ホームタウン</td>
+          <td class="content-field">{{ team.home_town }}</td>
+        </tr>
+        <tr>
+          <td class="content-name">選手</td>
+          <td class="content-field">
+            <a href="{% url 'soccer:team_player_list' team.slug %}">選手一覧はこちら</a>
+          </td>
+        </tr>
+    </table>
+    <div class="text-center mt-4">
+        <a class="btn btn-primary" href="{% url 'soccer:club_team_update_request_form' team.slug %}">更新リクエスト</a>
+    </div>
+</div>

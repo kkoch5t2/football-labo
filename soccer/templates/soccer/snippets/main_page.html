@@ -1,0 +1,53 @@
+{% for player in object_list %}
+    {% if player.is_public %}
+        <div class="card my-4">
+            <div class="card-body">
+                <a href="{% url 'soccer:player_detail' player.id %}">
+                    <h2 class="card-title player-headline">{{ player.country.flag|safe }} {{ player.name }}</h2>
+                </a>
+                <div class="top-position-space">
+                    <p>
+                        <i class="fas fa-running"></i> ポジション：
+                        <div class="position-box"><p>{{ player.main_position }}</p></div>
+                        {% if player.second_position != NULL %}
+                            <div class="position-box"><p>{{ player.second_position }}</p></div>
+                        {% endif %}
+                        {% if player.third_position != NULL %}
+                            <div class="position-box"><p>{{ player.third_position }}</p></div>
+                        {% endif %}
+                    </p>
+                </div>
+                <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+                <a href="{% url 'soccer:player_detail' player.id %}" class="btn btn-primary"><i class="fas fa-search"></i> チェックする</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="card my-4">
+            <div class="card-body">
+                <p class="card-title player-headline"><span class="badge badge-secondary">下書き</span></p>
+                <a href="{% url 'soccer:player_detail' player.id %}">
+                    <h2 class="card-title player-headline">{{ player.country.flag|safe }} {{ player.name }}</h2>
+                </a>
+                <div class="top-position-space">
+                    <p>
+                        <i class="fas fa-running"></i> ポジション：
+                        <div class="position-box"><p>{{ player.main_position }}</p></div>
+                        {% if player.second_position != NULL %}
+                            <div class="position-box"><p>{{ player.second_position }}</p></div>
+                        {% endif %}
+                        {% if player.third_position != NULL %}
+                            <div class="position-box"><p>{{ player.third_position }}</p></div>
+                        {% endif %}
+                    </p>
+                </div>
+                <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+                <a href="{% url 'soccer:player_detail' player.id %}" class="btn btn-primary"><i class="fas fa-search"></i> チェックする</a>
+            </div>
+        </div>
+    {% endif %}
+{% empty %}
+    <div class="text-center my-4">
+        <i class="fas fa-user-slash"></i> まだ投稿はありません。<br>
+        追加リクエストフォームから追加してほしい選手をリクエストできます。
+    </div>
+{% endfor %}

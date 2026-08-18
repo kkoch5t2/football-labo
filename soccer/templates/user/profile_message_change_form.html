@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}自己紹介文変更 | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">自己紹介文変更</h1>
+      <form method="post">
+        {% csrf_token %}
+        <p>
+          <label>自己紹介文</label>
+          {{ form.profile_message }}
+        </p>
+        <!-- {{ form.errors.username }} -->
+        <p><input type="submit" class="btn btn-primary" value="自己紹介文変更"></p>
+      </form>
+      <a href="{% url 'soccer:user_settings' %}" class="btn btn-secondary">戻る</a>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% for country in object_list %}
+    {% if country.is_public %}
+        <div class="card my-4">
+            <div class="card-body">
+                <a href="{% url 'soccer:national_detail' country.slug %}">
+                    <h2 class="card-title player-headline">{{ country.flag|safe }} {{ country.name }}代表</h2>
+                </a>
+                <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ country.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ country.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+                <a href="{% url 'soccer:national_detail' country.slug %}" class="btn btn-primary"><i class="fas fa-search"></i> チェックする</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="card my-4">
+            <div class="card-body">
+                <p class="card-title player-headline"><span class="badge badge-secondary">下書き</span></p>
+                <a href="{% url 'soccer:national_detail' country.slug %}">
+                    <h2 class="card-title player-headline">{{ country.flag|safe }} {{ country.name }}代表</h2>
+                </a>
+                <p class="card-text"><i class="fas fa-comments"></i> コメント数：{{ country.num_comments }}件｜<i class="fas fa-chart-bar"></i> 平均総合評価：{{ country.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0</p>
+                <a href="{% url 'soccer:national_detail' country.slug %}" class="btn btn-primary"><i class="fas fa-search"></i> チェックする</a>
+            </div>
+        </div>
+    {% endif %}
+{% empty %}
+    <div class="text-center my-4">
+        <i class="fas fa-user-slash"></i> まだ投稿はありません。<br>
+        追加リクエストフォームから追加してほしい代表チームをリクエストできます。
+    </div>
+{% endfor %}

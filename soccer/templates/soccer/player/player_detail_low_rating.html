@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.name }}の評価は？ | {{ block.super }}{% endblock %}
+{% block description %}{{ object.name }}選手の評価を投稿・チェックできるページです。コメント付きの評価を誰でも投稿できます。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% include "soccer/player/snippets/player_profile_area.html" %}
+      <article class="comment-area">
+        <div class="border rounded-lg p-4 mb-4">
+          {% include "soccer/player/snippets/player_average_ratings.html" %}
+          
+          {% if player.num_comments > 1 %}
+          <div class="btn-group-vertical w-100 mb-3" role="group">
+            <div class="btn-group w-100" role="group">
+              <a href="{% url 'soccer:player_detail' player.pk %}" class="btn btn-outline-primary w-50">最新順</a>
+              <a href="{% url 'soccer:player_detail_like_count' player.pk %}" class="btn btn-outline-primary w-50">いいね数順</a>
+            </div>
+            <div class="btn-group w-100" role="group">
+              <a href="{% url 'soccer:player_detail_high_rating' player.pk %}" class="btn btn-outline-primary w-50">高評価順</a>
+              <button type="button" class="btn btn-primary w-50 active">低評価順</button>
+            </div>
+          </div>
+          {% endif %}          
+          {% include "soccer/snippets/comments.html" %}
+
+          {% include "soccer/player/snippets/player_comment_pagenation.html" %}
+        </div>
+      </article>
+      {% include "soccer/player/snippets/player_related_pages.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {% include "soccer/player/snippets/player_radar_chart_js.html" %}
+{% endblock %}

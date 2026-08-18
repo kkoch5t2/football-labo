@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.name }}監督の評価は？ | {{ block.super }}{% endblock %}
+{% block description %}{{ object.name }}監督の評価を投稿・チェックできるページです。コメント付きの評価を誰でも投稿できます。{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% if messages %}
+        <div class="messages_ul">
+          {% for message in messages %}
+            <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert" style="list-style: none;"><i class="fas fa-check"></i> {{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% include "soccer/manager/snippets/manager_profile_area.html" %}
+      
+      <div class="border rounded-lg p-4 mb-4">
+          {% include "soccer/manager/snippets/manager_average_ratings.html" %}
+
+          {% if manager.num_comments > 1 %}
+          <div class="btn-group-vertical w-100 mb-3" role="group">
+            <div class="btn-group w-100" role="group">
+              <button type="button" class="btn btn-primary w-50 active">最新順</button>
+              <a href="{% url 'soccer:manager_detail_like_count' manager.pk %}" class="btn btn-outline-primary w-50">いいね数順</a>
+            </div>
+            <div class="btn-group w-100" role="group">
+              <a href="{% url 'soccer:manager_detail_high_rating' manager.pk %}" class="btn btn-outline-primary w-50">高評価順</a>
+              <a href="{% url 'soccer:manager_detail_low_rating' manager.pk %}" class="btn btn-outline-primary w-50">低評価順</a>
+            </div>
+          </div>
+          {% endif %}
+
+          {% include "soccer/snippets/manager_comments.html" %}
+          
+          {% include "soccer/manager/snippets/manager_comment_pagination.html" %}
+      </div>
+
+      {% include "soccer/manager/snippets/manager_related_pages.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {% include "soccer/manager/snippets/manager_radar_chart_js.html" %}
+{% endblock %}

@@ -1,0 +1,75 @@
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        選手
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/player/">選手トップページ</a>
+        <a class="dropdown-item" href="/player/list/">選手一覧</a>
+        <a class="dropdown-item" href="/player/position/">ポジションから探す</a>
+        <a class="dropdown-item" href="/player/league/">リーグから探す</a>
+        <a class="dropdown-item" href="/player/area/">地域から探す</a>
+        <a class="dropdown-item" href="/player/comment/list/">選手コメント一覧</a>
+        </div>
+    </li>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        監督
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/manager/">監督トップページ</a>
+        <a class="dropdown-item" href="/manager/list/">監督一覧</a>
+        <a class="dropdown-item" href="/manager/league/">リーグから探す</a>
+        <a class="dropdown-item" href="/manager/area/">地域から探す</a>
+        <a class="dropdown-item" href="/manager/comment/list/">監督コメント一覧</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        クラブ
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/team/">クラブトップページ</a>
+        <a class="dropdown-item" href="/league/">リーグから探す</a>
+        <a class="dropdown-item" href="/team/comment/list/">クラブコメント一覧</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        代表
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/country/">代表トップページ</a>
+        <a class="dropdown-item" href="/area/">地域から探す</a>
+        <a class="dropdown-item" href="/country/comment/list/">各国代表コメント一覧</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        追加リクエスト
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{% url 'soccer:player_new_create_request_form' %}">選手追加依頼フォーム</a>
+        <a class="dropdown-item" href="{% url 'soccer:manager_new_create_request_form' %}">監督追加依頼フォーム</a>
+        <a class="dropdown-item" href="{% url 'soccer:club_team_new_create_request_form' %}">クラブチーム追加依頼フォーム</a>
+        <a class="dropdown-item" href="{% url 'soccer:national_team_new_create_request_form' %}">代表チーム追加依頼フォーム</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        アカウント
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'soccer:user_list' %}">ユーザー一覧</a>
+          {% if not request.user.is_authenticated %}
+          <a class="dropdown-item" href="{% url 'soccer:login' %}">ログイン</a>
+          <a class="dropdown-item" href="{% url 'soccer:signup' %}">新規登録</a>
+          {% else %}
+          <a class="dropdown-item" href="{% url 'soccer:user_timeline_player_comment' %}">タイムライン</a>
+          <a class="dropdown-item" href="{% url 'soccer:user_player_comment_list' request.user.get_username %}">マイページ</a>
+          <a class="dropdown-item" href="{% url 'soccer:logout' %}">ログアウト</a>
+          {% endif %}
+        </div>
+    </li>
+</ul>

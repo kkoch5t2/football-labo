@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn myproject.wsgi_staging:application --bind 0.0.0.0:$WEB_PORT
+    expose:
+      - $WEB_PORT
+    restart: always
+    env_file:
+      - ./.env.stg
+    volumes:
+      - .:/code/
+      - static:/usr/share/nginx/html/static
+      - media:/usr/share/nginx/html/media
+    depends_on:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:15.4
+    volumes:
+      - postgres_date:/var/lib/postgresql/data/
+    expose:
+      - $DB_PORT:$DB_PORT
+    restart: always
+    env_file:
+      - ./.env.stg
+    environment:
+      POSTGRES_USER: $STG_POSTGRES_USER
+      POSTGRES_PASSWORD: $STG_POSTGRES_PASSWORD
+      POSTGRES_DB: $STG_POSTGRES_DB
+  nginx:
+    container_name: nginx
+    build: ./nginx/stg
+    volumes:
+      - static:/usr/share/nginx/html/static
+      - media:/usr/share/nginx/html/media
+    ports:
+      - $STG_NGINX_PORT:$STG_NGINX_PORT
+    restart: always
+    depends_on:
+      - web
+    env_file:
+      - ./.env.stg
+    command: /bin/sh -c "envsubst '$$WEB_PORT$$STG_NGINX_PORT$$STG_RECEPTION_IP' < /etc/nginx/conf.d/nginx.stg.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    environment:
+      - WEB_PORT=$WEB_PORT
+      - STG_NGINX_PORT=$STG_NGINX_PORT
+      - STG_RECEPTION_IP=$STG_RECEPTION_IP
+volumes:
+  postgres_date:
+  static:
+  media:

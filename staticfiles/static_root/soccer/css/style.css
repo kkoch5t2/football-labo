@@ -1,0 +1,290 @@
+.navbar .dropdown-menu {
+    background-color: #343A40;
+    color :white;
+}
+
+.navbar .dropdown.show a { 
+    background-color: #343A40;
+    color :white;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer{
+    margin-top: auto;
+}
+
+.headline1 {
+    font-size: 32px;
+}
+
+.headline2{
+    font-size: 27px;
+}
+
+.headline3{
+    font-size: 25px;
+}
+
+.player-headline{
+    font-size: 1.25rem;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.close-gap{
+    margin-bottom: -7px;
+}
+
+.search-flex{
+    display: flex;
+}
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.top-position-none-space{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -9px;
+}
+
+.top-position-none-space p{
+    margin-bottom: -1rem;
+}
+
+.position-box{
+    border: 1.5px solid #666666;
+    border-radius: 9px;
+    margin-right: 7px;
+    margin-bottom: 5px;
+    padding: 0 6px;
+    height: 25px;
+    line-height: 22.5px;
+}
+
+.profile-table td{
+    border: 2px solid #2a2e33;
+}
+
+.profile-table{
+    width:100%;
+}
+
+.profile-table td{
+    border: 2px solid #2a2e33;
+}
+
+.profile{
+    background-color: #343A40;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.content-name{
+    background-color: #343A40;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.content-field{
+    padding: 10px;
+}
+
+.position-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.position-td {
+    border: 3px solid #2a2e33;
+}
+
+.a{
+    background-color: #343A40;
+    color: white;
+    font-weight: bold;
+}
+
+.b {
+    background-color: #0069D9;
+    color: white;
+    font-weight: bold;
+}
+
+.position-name{
+    text-align: center;
+    height: 25px;
+    line-height: 39px;
+}
+
+.responsive-on{
+    display: none;
+}
+
+.chart-average{
+    width:200px;
+    height: 200px;
+}
+
+.rate-table td{
+    border: 2px solid #2a2e33;
+}
+
+.average-name{
+    background-color: #343A40;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.average-value{
+    padding: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.all-average-value{
+    font-size: 23px;
+}
+
+.comment-average-name{
+    background-color: #343A40;
+    color: white;
+    padding: 3px;
+    font-weight: bold;
+}
+
+.comment-average-value{
+    padding: 3px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.flex{
+    display: flex;
+    width: 100%;
+}
+
+.chart-container{
+    position: relative;
+    margin:20px 0;
+}
+
+.wrap-chart {
+    width: 40%;
+}
+
+.comment-detail{
+    width:60%;
+    margin:30px 0 20px 10px;
+}
+
+.comment-text{
+    font-size: small;
+    margin-bottom: 30px;
+}
+
+.team-flex{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.team-item{
+    width:50%;
+    height: 50%;
+}
+
+.team-logo{
+    height: 125px;
+}
+
+.related-country{
+    font-size: 83.5px;
+}
+
+.flex-wrapper{
+    display:flex;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.top-menu-title-border {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.top-menu-title-border:before,
+.title-border:after {
+    border-top: 2.5px solid #808080;
+    content: "";
+    flex-grow: 1;
+}
+
+.top-menu-title-border:before {
+    margin-right: 1rem;
+}
+
+.top-menu-title-border:after {
+    margin-left: 1rem;
+}
+
+.top-tow-column-menu-item{
+    width: 50%;
+    margin-bottom: 25px;
+    font-size: 21px;
+}
+
+.top-one-column-menu-item{
+    margin-bottom: 25px;
+    font-size: 21px;
+}
+
+.item-wrapper{
+    width:50%;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.headline-team{
+    height: 44px;
+    margin-right: 10px;
+}
+
+.form-center{
+    margin: 0 auto;
+    width: 50%;
+}
+
+.footer-space {
+    text-align: center;
+}
+
+.footer-text {
+    color: #fff;
+}
+
+.footer-link {
+    font-size: 12.5px;
+    padding-top: 25px;
+    margin: 5px 0;
+}
+
+.copyright{
+    padding-bottom: 10px;
+}

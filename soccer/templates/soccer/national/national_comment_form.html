@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}コメント投稿フォーム | {{ block.super }}{% endblock %}
+{% block description %}{{ country.name }}のコメント投稿フォームのページです。{% endblock %}
+
+{% block navbar %}
+  {% include "base/national_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% if messages %}
+        <div class="messages_ul">
+          {% for message in messages %}
+            <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert" style="list-style: none;"><i class="fas fa-exclamation-triangle"></i> {{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <h1 class="mb-4 headline1"><i class="fas fa-comment"></i> コメント投稿フォーム</h1>
+      <p>「<a href="{% url 'soccer:national_detail' country.slug %}">{{ country.flag|safe }} {{ country.name }}代表</a>」へのコメント投稿</p>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> 送信</button>
+      </form>
+      <p class="mt-4">
+        <i class="fas fa-exclamation-triangle"></i> 連投防止のため1カ国につき1人1コメントまでとしていますが、一度コメントした国に対しても投稿日から1か月後に再度コメントできます。<br>
+        <i class="fas fa-exclamation-triangle"></i> 当サイトの<a href="/pages/privacy/">プライバシーポリシー（当サイトへのコメントについて）</a>に規定した内容に反するコメントを投稿した場合はコメントを削除することとなりますので良識あるコメントの投稿をよろしくお願いします。
+      </p>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

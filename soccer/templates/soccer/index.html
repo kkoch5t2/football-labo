@@ -1,0 +1,1047 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }}｜プロサッカーのレビューサイト{% endblock %}
+{% block description %}「みんなのサッカーラボ」はプロサッカー選手・監督・チームをみんなで評価するサッカーに特化したレビューサイトです。サッカーに詳しい方もそうでない方も気軽にコメントしてください！{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <div class="border rounded-lg p-4 mb-4">
+        <h1 class="mb-4 headline1"><i class="far fa-futbol"></i> みんなのサッカーラボとは？</h1>
+        <hr>
+        <p>
+          「みんなのサッカーラボ」は選手、監督、チームをみんなで評価するサッカーに特化したレビューサイトです。<br>
+          暇なときにチェックしてみてください。コメント投稿もお気軽にどうぞ。<br>
+          下記のリンクから興味のある選手、監督、チームをお探しください。
+        </p>
+        <br>
+        <div class="top-menu-title-border title-border">トップメニュー</div>
+        <div class="flex text-center">
+          <div class="top-tow-column-menu-item">
+            <a href="/player/"><i class="fas fa-search"></i> 選手専用ページ</a>
+          </div>
+          <div class="top-tow-column-menu-item">
+            <a href="/manager/"><i class="fas fa-search"></i> 監督専用ページ</a>
+          </div>
+        </div>
+        <div class="flex text-center">
+          <div class="top-tow-column-menu-item">
+            <a href="/team/"><i class="fas fa-search"></i> クラブチーム専用ページ</a>
+          </div>
+          <div class="top-tow-column-menu-item">
+            <a href="/country/"><i class="fas fa-search"></i> 代表チーム専用ページ</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border rounded-lg p-4 mb-4">
+        <h2 class="headline2"><i class="fas fa-running"></i>【選手】ポジション別平均総合評価ランキング</h2>
+        <hr>
+        <div class="btn-group-vertical w-100 mb-4" role="group">
+          <div class="btn-group w-100" role="group">
+            <button type="button" onclick="display_gk()" class="btn btn-primary active w-20" id="btn_gk">GK</button>
+            <button type="button" onclick="display_cb()" class="btn btn-outline-primary w-20" id="btn_cb">CB</button>
+            <button type="button" onclick="display_lb()" class="btn btn-outline-primary w-20" id="btn_lb">LB</button>
+            <button type="button" onclick="display_rb()" class="btn btn-outline-primary w-20" id="btn_rb">RB</button>
+            <button type="button" onclick="display_lwb()" class="btn btn-outline-primary w-20" id="btn_lwb">LWB</button>
+          </div>
+          <div class="btn-group w-100" role="group">
+            <button type="button" onclick="display_rwb()" class="btn btn-outline-primary w-20" id="btn_rwb">RWB</button>
+            <button type="button" onclick="display_dm()" class="btn btn-outline-primary w-20" id="btn_dm">DM</button>
+            <button type="button" onclick="display_cm()" class="btn btn-outline-primary w-20" id="btn_cm">CM</button>
+            <button type="button" onclick="display_am()" class="btn btn-outline-primary w-20" id="btn_am">AM</button>
+            <button type="button" onclick="display_lm()" class="btn btn-outline-primary w-20" id="btn_lm">LM</button>
+          </div>
+          <div class="btn-group w-100" role="group">
+            <button type="button" onclick="display_rm()" class="btn btn-outline-primary w-20" id="btn_rm">RM</button>
+            <button type="button" onclick="display_ss()" class="btn btn-outline-primary w-20" id="btn_ss">SS</button>
+            <button type="button" onclick="display_cf()" class="btn btn-outline-primary w-20" id="btn_cf">CF</button>
+            <button type="button" onclick="display_lw()" class="btn btn-outline-primary w-20" id="btn_lw">LW</button>
+            <button type="button" onclick="display_rw()" class="btn btn-outline-primary w-20" id="btn_rw">RW</button>
+          </div>
+        </div>
+        
+        <div id="gk" class="display">
+          <h3 class="player-average-rating-position">GK（ゴールキーパー）</h3>
+          <hr>
+          {% for player in gk_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="cb" class="display-none">
+          <h3 class="player-average-rating-position">CB（センターバック）</h3>
+          <hr>
+          {% for player in cb_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="lb" class="display-none">
+          <h3 class="player-average-rating-position">LB（レフトサイドバック）</h3>
+          <hr>
+          {% for player in lb_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="rb" class="display-none">
+          <h3 class="player-average-rating-position">RB（ライトサイドバック）</h3>
+          <hr>
+          {% for player in rb_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="lwb" class="display-none">
+          <h3 class="player-average-rating-position">LWB（レフトウイングバック）</h3>
+          <hr>
+          {% for player in lwb_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：
+                <a href="{% url 'soccer:player_detail' player.id %}">
+                  {{ player.country.flag|safe }} {{ player.name }}
+                </a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="rwb" class="display-none">
+          <h3 class="player-average-rating-position">RWB（ライトウイングバック）</h3>
+          <hr>
+          {% for player in rwb_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="dm" class="display-none">
+          <h3 class="player-average-rating-position">DM（ディフェンシブミットフィルダー）</h3>
+          <hr>
+          {% for player in dm_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="cm" class="display-none">
+          <h3 class="player-average-rating-position">CM（セントラルミットフィルダー）</h3>
+          <hr>
+          {% for player in cm_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="am" class="display-none">
+          <h3 class="player-average-rating-position">AM（アタッキングミットフィルダー）</h3>
+          <hr>
+          {% for player in am_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="lm" class="display-none">
+          <h3 class="player-average-rating-position">LM（レフトミットフィルダー）</h3>
+          <hr>
+          {% for player in lm_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="rm" class="display-none">
+          <h3 class="player-average-rating-position">RM（ライトミットフィルダー）</h3>
+          <hr>
+          {% for player in rm_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="ss" class="display-none">
+          <h3 class="player-average-rating-position">SS（セカンドストライカー）</h3>
+          <hr>
+          {% for player in ss_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="cf" class="display-none">
+          <h3 class="player-average-rating-position">CF（センターフォワード）</h3>
+          <hr>
+          {% for player in cf_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="lw" class="display-none">
+          <h3 class="player-average-rating-position">LW（レフトウインガー）</h3>
+          <hr>
+          {% for player in lw_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+
+        <div id="rw" class="display-none">
+          <h3 class="player-average-rating-position">RW（ライトウインガー）</h3>
+          <hr>
+          {% for player in rw_ranking_list|slice:":3" %}
+            {% if player.is_public %}
+              <h4 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:player_detail' player.id %}">{{ player.country.flag|safe }} {{ player.name }}</a>
+              </h4>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-users"></i> 所属チーム：{{ player.league.flag|safe }} {{ player.team.name }}</p>
+              </div>
+              <p class="card-text mb-3"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ player.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ player.num_comments }}件</p>
+              <hr>
+            {% endif %}
+          {% empty %}
+            <div class="text-center mb-3">
+              <i class="fas fa-user-slash"></i> 評価コメントが投稿された選手がいません。
+            </div>
+          {% endfor %}
+          <div class="text-center">
+            <a class="btn btn-primary" href="/player/"><i class="fas fa-check-circle"></i> 選手専用ページをチェック</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border rounded-lg p-4 mb-4">
+        <h2 class="headline2"><i class="fas fa-user"></i>【監督】平均総合評価ランキング</h2>
+        <hr>
+        {% for manager in manager_list|slice:":5" %}
+            {% if manager.is_public %}
+              <h3 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:manager_detail' manager.id %}">{{ manager.country.flag|safe }} {{ manager.name }}</a>
+              </h3>
+              <div class="list-item-spacing">
+                <i class="fas fa-users"></i> 所属チーム：{{ manager.league.flag|safe }} {{ manager.team.name }}
+              </div>
+              <p class="card-text"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ manager.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ manager.num_comments }}件</p>
+              <hr>
+            {% endif %}
+        {% empty %}
+            <div class="text-center my-4">
+                <i class="fas fa-user-slash"></i> まだ投稿はありません。<br>
+                追加リクエストフォームから追加してほしい監督をリクエストできます。
+            </div>
+        {% endfor %}
+        <div class="text-center">
+          <a class="btn btn-primary" href="/manager/"><i class="fas fa-check-circle"></i> 監督専用ページをチェック</a>
+        </div>
+      </div>
+
+      <div class="border rounded-lg p-4 mb-4">
+        <h2 class="headline2"><i class="fas fa-users"></i>【クラブ】平均総合評価ランキング</h2>
+        <hr>
+        {% for team in club_team_list|slice:":5" %}
+            {% if team.is_public %}
+              <h3 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:club_detail' team.slug %}"><img src="{{ team.image.url }}" alt="{{ team.name }}" class="headline-team">{{ team.name }}</a>
+              </h3>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-flag"></i> リーグ：{{ team.league.flag|safe }} {{ team.league.name }}リーグ</p>
+              </div>
+              <p class="card-text"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ team.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ team.num_comments }}件</p>
+              <hr>
+            {% endif %}
+        {% empty %}
+            <div class="text-center my-4">
+                <i class="fas fa-user-slash"></i> まだ投稿はありません。<br>
+                追加リクエストフォームから追加してほしい監督をリクエストできます。
+            </div>
+        {% endfor %}
+        <div class="text-center">
+          <a class="btn btn-primary" href="/team/"><i class="fas fa-check-circle"></i> クラブ専用ページをチェック</a>
+        </div>
+      </div>
+
+      <div class="border rounded-lg p-4 mb-4">
+        <h2 class="headline2"><i class="fas fa-users"></i>【代表】平均総合評価ランキング</h2>
+        <hr>
+        {% for country in national_team_list|slice:":5" %}
+            {% if country.is_public %}
+              <h3 class="player-headline">
+                {{ forloop.counter }}位：<a href="{% url 'soccer:national_detail' country.slug %}">{{ country.flag|safe }} {{ country.name }}代表</a>
+              </h3>
+              <div class="list-item-spacing">
+                <p class="card-text"><i class="fas fa-globe"></i> 地域：{{ country.area.name }}</p>
+              </div>
+              <p class="card-text"><i class="fas fa-chart-bar"></i> 平均総合評価：{{ country.avg_ratings.ovr__avg|floatformat:"1"|default:0 }}/7.0｜<i class="fas fa-comments"></i> コメント数：{{ country.num_comments }}件</p>
+              <hr>
+            {% endif %}
+        {% empty %}
+            <div class="text-center my-4">
+                <i class="fas fa-user-slash"></i> まだ投稿はありません。<br>
+                追加リクエストフォームから追加してほしい監督をリクエストできます。
+            </div>
+        {% endfor %}
+        <div class="text-center">
+          <a class="btn btn-primary" href="/country/"><i class="fas fa-check-circle"></i> 代表専用ページをチェック</a>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        {% include "soccer/snippets/google_adsense_code.html" %}
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript"> 
+  const btn_gk = document.getElementById("btn_gk")
+  const btn_cb = document.getElementById("btn_cb")
+  const btn_lb = document.getElementById("btn_lb")
+  const btn_rb = document.getElementById("btn_rb")
+  const btn_lwb = document.getElementById("btn_lwb")
+  const btn_rwb = document.getElementById("btn_rwb")
+  const btn_dm = document.getElementById("btn_dm")
+  const btn_cm = document.getElementById("btn_cm")
+  const btn_am = document.getElementById("btn_am")
+  const btn_lm = document.getElementById("btn_lm")
+  const btn_rm = document.getElementById("btn_rm")
+  const btn_ss = document.getElementById("btn_ss")
+  const btn_cf = document.getElementById("btn_cf")
+  const btn_lw = document.getElementById("btn_lw")
+  const btn_rw = document.getElementById("btn_rw")
+  const gk = document.getElementById("gk")
+  const cb = document.getElementById("cb")
+  const lb = document.getElementById("lb")
+  const rb = document.getElementById("rb")
+  const lwb = document.getElementById("lwb")
+  const rwb = document.getElementById("rwb")
+  const dm = document.getElementById("dm")
+  const cm = document.getElementById("cm")
+  const am = document.getElementById("am")
+  const lm = document.getElementById("lm")
+  const rm = document.getElementById("rm")
+  const ss = document.getElementById("ss")
+  const cf = document.getElementById("cf")
+  const lw = document.getElementById("lw")
+  const rw = document.getElementById("rw")
+
+  function display_gk() {
+    btn_gk.className = "btn w-20 btn-primary active"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_cb() {
+    btn_gk.className = "btn w-20 btn-outline-primary w-20"
+    btn_cb.className = "btn w-20 btn-primary active w-20"
+    btn_lb.className = "btn w-20 btn-outline-primary w-20"
+    btn_rb.className = "btn w-20 btn-outline-primary w-20"
+    btn_lwb.className = "btn w-20 btn-outline-primary w-20"
+    btn_rwb.className = "btn w-20 btn-outline-primary w-20"
+    btn_dm.className = "btn w-20 btn-outline-primary w-20"
+    btn_cm.className = "btn w-20 btn-outline-primary w-20"
+    btn_am.className = "btn w-20 btn-outline-primary w-20"
+    btn_lm.className = "btn w-20 btn-outline-primary w-20"
+    btn_rm.className = "btn w-20 btn-outline-primary w-20"
+    btn_ss.className = "btn w-20 btn-outline-primary w-20"
+    btn_cf.className = "btn w-20 btn-outline-primary w-20"
+    btn_lw.className = "btn w-20 btn-outline-primary w-20"
+    btn_rw.className = "btn w-20 btn-outline-primary w-20"
+    gk.className = "display-none"
+    cb.className = "display"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_lb() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-primary active"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_rb() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-primary active"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_lwb() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-primary active"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_rwb() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-primary active"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_dm() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-primary active"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_cm() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-primary active"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_am() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-primary active"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_lm() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-primary active"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_rm() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-primary active"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_ss() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-primary active"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_cf() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-primary active"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display"
+    lw.className = "display-none"
+    rw.className = "display-none"
+  }
+
+  function display_lw() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-primary active"
+    btn_rw.className = "btn w-20 btn-outline-primary"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display"
+    rw.className = "display-none"
+  }
+
+  function display_rw() {
+    btn_gk.className = "btn w-20 btn-outline-primary"
+    btn_cb.className = "btn w-20 btn-outline-primary"
+    btn_lb.className = "btn w-20 btn-outline-primary"
+    btn_rb.className = "btn w-20 btn-outline-primary"
+    btn_lwb.className = "btn w-20 btn-outline-primary"
+    btn_rwb.className = "btn w-20 btn-outline-primary"
+    btn_dm.className = "btn w-20 btn-outline-primary"
+    btn_cm.className = "btn w-20 btn-outline-primary"
+    btn_am.className = "btn w-20 btn-outline-primary"
+    btn_lm.className = "btn w-20 btn-outline-primary"
+    btn_rm.className = "btn w-20 btn-outline-primary"
+    btn_ss.className = "btn w-20 btn-outline-primary"
+    btn_cf.className = "btn w-20 btn-outline-primary"
+    btn_lw.className = "btn w-20 btn-outline-primary"
+    btn_rw.className = "btn w-20 btn-primary active"
+    gk.className = "display-none"
+    cb.className = "display-none"
+    lb.className = "display-none"
+    rb.className = "display-none"
+    lwb.className = "display-none"
+    rwb.className = "display-none"
+    dm.className = "display-none"
+    cm.className = "display-none"
+    am.className = "display-none"
+    lm.className = "display-none"
+    rm.className = "display-none"
+    ss.className = "display-none"
+    cf.className = "display-none"
+    lw.className = "display-none"
+    rw.className = "display"
+  }
+</script>
+{% endblock %}

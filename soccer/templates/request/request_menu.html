@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}新規ページ追加リクエスト | {{ block.super }}{% endblock %}
+{% block description %}選手・監督・クラブチーム・代表チームの追加リクエストが行えます。サイト内に評価したい選手・監督がいない場合はリクエストしてください。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1"><i class="fas fa-user-plus"></i> 新規ページ追加リクエスト</h1>
+      <div class="top-menu-title-border title-border">メニュー</div>
+      <div class="flex text-center">
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:player_new_create_request_form' %}"><i class="fas fa-plus-circle"></i> 選手追加依頼フォーム</a>
+        </div>
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:manager_new_create_request_form' %}"><i class="fas fa-plus-circle"></i> 監督追加依頼フォーム</a>
+        </div>
+      </div>
+      <div class="flex text-center">
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:club_team_new_create_request_form' %}"><i class="fas fa-plus-circle"></i> クラブチーム追加依頼フォーム</a>
+        </div>
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:national_team_new_create_request_form' %}"><i class="fas fa-plus-circle"></i> 代表チーム追加依頼フォーム</a>
+        </div>
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

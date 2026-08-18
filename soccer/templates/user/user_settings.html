@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}プロフィール設定 | {{ block.super }}{% endblock %}
+{% block description %}みんなのサッカーラボのプロフィール設定ページです。{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1">プロフィール設定</h1>
+      <div class="flex text-center">
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:username_change_form' %}"><i class="fas fa-at"></i> ユーザー名</a>
+        </div>
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:nickname_change_form' %}"><i class="fas fa-user-edit"></i> ニックネーム</a>
+        </div>
+      </div>
+      <div class="flex text-center">
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:email_change_form' %}"><i class="fas fa-envelope"></i> メールアドレス</a>
+        </div>
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:password_change_form' %}"><i class="fas fa-key"></i> パスワード</a>
+        </div>
+      </div>
+      <div class="flex text-center">
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:user_icon_change_form' %}"><i class="fas fa-images"></i> ユーザーアイコン</a>
+        </div>
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:profile_message_change_form' %}"><i class="fas fa-address-card"></i> 自己紹介文</a>
+        </div>
+      </div>
+      <div class="flex text-center">
+        <div class="top-tow-column-menu-item">
+          <a href="{% url 'soccer:user_deactivate' %}"><i class="fas fa-user-times"></i> 退会する</a>
+        </div>
+      </div>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}マイページ | {{ block.super }}{% endblock %}
+
+{% block navbar %}
+  {% include "base/player_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      {% include "user/snippets/user_detail_area.html" %}
+      <div class="btn-group-vertical w-100 mb-3" role="group">
+        <div class="btn-group w-100" role="group">
+          <button type="button" class="btn btn-primary w-50 active">過去の投稿一覧</button>
+          <a href="{% url 'soccer:user_like_player_comment_list' request_user.username %}" class="btn btn-outline-primary w-50">いいねした投稿一覧</a>
+        </div>
+        <div class="btn-group w-100" role="group">
+          <a href="{% url 'soccer:user_player_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">選手</a>
+          <a href="{% url 'soccer:user_manager_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">監督</a>
+          <button type="button" class="btn btn-primary w-25 active">クラブ</button>
+          <a href="{% url 'soccer:user_national_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">代表</a>
+        </div>
+      </div>
+      {% for clubcomment in object_list %}
+        <div class="card my-4">
+          <div class="card-body">
+            <a href="{% url 'soccer:club_detail' clubcomment.team.slug %}"><p>{{ clubcomment.team.league.flag|safe }} <strong>{{ clubcomment.team.name }}</a>｜<i class="fas fa-star"></i>総合評価：{{ clubcomment.ovr }}/7｜<i class="fas fa-thumbs-up"></i> {{ clubcomment.like }}いいね</strong></p>
+            <p>投稿者：{{ clubcomment.user.nickname }}（投稿日：{{ clubcomment.timestamp }}）</p>
+            <p>{{ clubcomment.text|linebreaksbr|truncatechars_html:50 }}</p>
+            <a href="{% url 'soccer:club_detail' clubcomment.team.slug %}" class="btn btn-primary"><i class="fas fa-search"></i> クラブをチェックする</a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="text-center my-4">
+          <i class="fas fa-comment-slash"></i> まだ投稿はありません。<br>
+        </div>
+      {% endfor %}
+      {% include "soccer/snippets/pagination.html" %}
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}クラブチーム新規追加リクエスト | {{ block.super }}{% endblock %}
+{% block description %}クラブチームの新規追加リクエストが行えます。評価したいクラブチームがいる場合はリクエストしてみてください。{% endblock %}
+
+{% block navbar %}
+  {% include "base/manager_navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <main class="col-md-8">
+      <h1 class="mb-4 headline1"><i class="far fa-edit"></i> クラブチーム新規追加依頼フォーム</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <p>
+          <label>クラブ名</label>
+          {{ form.name }}
+        </p>
+        <p>
+          <label>所属リーグ</label>
+          {{ form.league }}
+        </p>
+        <p>
+          <label>創設年（半角数字）</label>
+          {{ form.year_established }}
+        </p>
+        <p>
+          <label>ホームタウン</label>
+          {{ form.home_town }}
+        </p>
+        <div class="top-menu-title-border title-border my-5">上記クラブチームの評価コメント↓</div>
+        <p>
+          <label>名前</label>
+          {{ form.author }}
+        </p>
+        <p>
+          <label>総合評価</label>
+          {{ form.ovr }}
+        </p>
+        <p>
+          <label>攻撃力の評価</label>
+          {{ form.attack_rating }}
+        </p>
+        <p>
+          <label>守備力の評価</label>
+          {{ form.defense_rating }}
+        </p>
+        <p>
+          <label>監督・コーチの評価</label>
+          {{ form.manager_rating }}
+        </p>
+        <p>
+          <label>フロントの評価</label>
+          {{ form.front_rating }}
+        </p>
+        <p>
+          <label>育成の評価</label>
+          {{ form.development_rating }}
+        </p>
+        <p>
+          <label>コメント（700字まで）</label>
+          {{ form.comment_text }}
+        </p>
+        {{ form.captcha }}
+        <button type="submit" class="btn btn-primary mb-3"><i class="fas fa-paper-plane"></i> 送信</button>
+      </form>
+    </main>
+    <aside class="col-md-4">
+      {% include "soccer/snippets/sidebar.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
