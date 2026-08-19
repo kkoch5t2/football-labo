@@ -15,11 +15,23 @@
         {% if object_list.0 is not null and object_list.1 is not null %}
         <div class="btn-group-vertical w-100 mb-3" role="group">
             <div class="btn-group w-100" role="group">
-              <button type="button" class="btn btn-primary w-50 active">最新順</button>
-              <a href="{% url 'soccer:team_player_list_comment_count' team.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+              {% if request.resolver_match.url_name == 'team_player_list' %}
+                <button type="button" class="btn btn-primary w-50 active">最新順</button>
+              {% else %}
+                <a href="{% url 'soccer:team_player_list' team.slug %}" class="btn btn-outline-primary w-50">最新順</a>
+              {% endif %}
+              {% if request.resolver_match.url_name == 'team_player_list_comment_count' %}
+                <button type="button" class="btn btn-primary w-50 active">コメント数順</button>
+              {% else %}
+                <a href="{% url 'soccer:team_player_list_comment_count' team.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+              {% endif %}
             </div>
             <div class="btn-group w-100" role="group">
+              {% if request.resolver_match.url_name == 'team_player_list_avg_rating' %}
+                <button type="button" class="btn btn-primary w-50 active">平均総合評価順</button>
+              {% else %}
                 <a href="{% url 'soccer:team_player_list_avg_rating' team.slug %}" class="btn btn-outline-primary w-50">平均総合評価順</a>
+              {% endif %}
                 <a href="{% url 'soccer:team_position_list' team.slug %}" class="btn btn-outline-primary w-50">ポジション別</a>
             </div>
         </div>

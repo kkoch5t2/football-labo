@@ -11,12 +11,7 @@
   <div class="row">
     <main class="col-md-8">
       <h2>タイムライン</h2>
-      <div class="btn-group w-100 my-3" role="group">
-        <a href="{% url 'soccer:user_timeline_player_comment' %}" class="btn btn-outline-primary w-25">選手</a>
-        <a href="{% url 'soccer:user_timeline_manager_comment' %}" class="btn btn-outline-primary w-25">監督</a>
-        <button type="button" class="btn btn-primary w-25 active">クラブ</button>
-        <a href="{% url 'soccer:user_timeline_national_comment' %}" class="btn btn-outline-primary w-25">代表</a>
-      </div>
+      {% include "user/snippets/user_timeline_buttons.html" %}
       {% for clubcomment in object_list %}
         <div class="card my-4">
           <div class="card-body">

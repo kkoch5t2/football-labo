@@ -26,12 +26,28 @@
           {% if manager.num_comments > 1 %}
           <div class="btn-group-vertical w-100 mb-3" role="group">
             <div class="btn-group w-100" role="group">
-              <button type="button" class="btn btn-primary w-50 active">最新順</button>
-              <a href="{% url 'soccer:manager_detail_like_count' manager.pk %}" class="btn btn-outline-primary w-50">いいね数順</a>
+              {% if request.resolver_match.url_name == 'manager_detail' %}
+                <button type="button" class="btn btn-primary w-50 active">最新順</button>
+              {% else %}
+                <a href="{% url 'soccer:manager_detail' manager.pk %}" class="btn btn-outline-primary w-50">最新順</a>
+              {% endif %}
+              {% if request.resolver_match.url_name == 'manager_detail_like_count' %}
+                <button type="button" class="btn btn-primary w-50 active">いいね数順</button>
+              {% else %}
+                <a href="{% url 'soccer:manager_detail_like_count' manager.pk %}" class="btn btn-outline-primary w-50">いいね数順</a>
+              {% endif %}
             </div>
             <div class="btn-group w-100" role="group">
-              <a href="{% url 'soccer:manager_detail_high_rating' manager.pk %}" class="btn btn-outline-primary w-50">高評価順</a>
-              <a href="{% url 'soccer:manager_detail_low_rating' manager.pk %}" class="btn btn-outline-primary w-50">低評価順</a>
+              {% if request.resolver_match.url_name == 'manager_detail_high_rating' %}
+                <button type="button" class="btn btn-primary w-50 active">高評価順</button>
+              {% else %}
+                <a href="{% url 'soccer:manager_detail_high_rating' manager.pk %}" class="btn btn-outline-primary w-50">高評価順</a>
+              {% endif %}
+              {% if request.resolver_match.url_name == 'manager_detail_low_rating' %}
+                <button type="button" class="btn btn-primary w-50 active">低評価順</button>
+              {% else %}
+                <a href="{% url 'soccer:manager_detail_low_rating' manager.pk %}" class="btn btn-outline-primary w-50">低評価順</a>
+              {% endif %}
             </div>
           </div>
           {% endif %}

@@ -84,7 +84,7 @@ class PlayerDetailView(DetailView):
 # 【選手】詳細（コメントいいね数順）
 class PlayerDetailLikeCountView(DetailView):
     model = Player
-    template_name = 'soccer/player/player_detail_like_count.html'
+    template_name = 'soccer/player/player_detail.html'
     queryset = Player.objects.annotate(
         num_comments=Count('comments'))
 
@@ -106,7 +106,7 @@ class PlayerDetailLikeCountView(DetailView):
 # 【選手】詳細（コメント高評価順）
 class PlayerDetailHighRatingView(DetailView):
     model = Player
-    template_name = 'soccer/player/player_detail_high_rating.html'
+    template_name = 'soccer/player/player_detail.html'
     queryset = Player.objects.annotate(
         num_comments=Count('comments'))
 
@@ -128,7 +128,7 @@ class PlayerDetailHighRatingView(DetailView):
 # 【選手】詳細（コメント低評価順）
 class PlayerDetailLowRatingView(DetailView):
     model = Player
-    template_name = 'soccer/player/player_detail_low_rating.html'
+    template_name = 'soccer/player/player_detail.html'
     queryset = Player.objects.annotate(
         num_comments=Count('comments'))
 
@@ -160,7 +160,7 @@ class PlayerListView(ListView):
 class PlayerListCommentCountView(ListView):
     model = Player
     paginate_by = 10
-    template_name = 'soccer/player/player_list_comment_count.html'
+    template_name = 'soccer/player/player_list.html'
     queryset = Player.objects.annotate(
         num_comments=Count('comments')).order_by('-num_comments','-created_at')
 
@@ -168,7 +168,7 @@ class PlayerListCommentCountView(ListView):
 # 【選手】リスト（平均総合評価順）
 class PlayerListAvgRatingView(ListView):
     model = Player
-    template_name = 'soccer/player/player_list_avg_rating.html'
+    template_name = 'soccer/player/player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments'), avg_ovr=Avg('comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments','-created_at')
@@ -243,7 +243,7 @@ class TeamPlayerListView(ListView):
 # 【選手】チームごとの選手リスト（コメント数順）
 class TeamPlayerListCommentCountView(ListView):
     model = Player
-    template_name = 'soccer/player/team_player_list_comment_count.html'
+    template_name = 'soccer/player/team_player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments')).order_by('-num_comments','-created_at')
@@ -263,7 +263,7 @@ class TeamPlayerListCommentCountView(ListView):
 # 【選手】チームごとの選手リスト（平均総合評価順）
 class TeamPlayerListAvgRatingView(ListView):
     model = Player
-    template_name = 'soccer/player/team_player_list_avg_rating.html'
+    template_name = 'soccer/player/team_player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments'), avg_ovr=Avg('comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -325,7 +325,7 @@ class TeamPlayerListPositionView(ListView):
 # 【選手】チームごとのポジション別選手リスト（コメント数順）
 class TeamPlayerListPositionCommentCountView(ListView):
     model = Player
-    template_name = 'soccer/player/team_player_list_position_comment_count.html'
+    template_name = 'soccer/player/team_player_list_position.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments')).order_by('-num_comments','-created_at')
@@ -347,7 +347,7 @@ class TeamPlayerListPositionCommentCountView(ListView):
 # 【選手】チームごとのポジション別選手リスト（平均総合評価順）
 class TeamPlayerListPositionAvgRatingView(ListView):
     model = Player
-    template_name = 'soccer/player/team_player_list_position_avg_rating.html'
+    template_name = 'soccer/player/team_player_list_position.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments'), avg_ovr=Avg('comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -408,7 +408,7 @@ class CountryPlayerListView(ListView):
 # 【選手】国ごとの選手リスト（コメント数順）
 class CountryPlayerListCommentCountView(ListView):
     model = Player
-    template_name = 'soccer/player/country_player_list_comment_count.html'
+    template_name = 'soccer/player/country_player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments')).order_by('-num_comments','-created_at')
@@ -428,7 +428,7 @@ class CountryPlayerListCommentCountView(ListView):
 # 【選手】国籍ごとの選手リスト（平均総合評価順）
 class CountryPlayerListAvgRatingView(ListView):
     model = Player
-    template_name = 'soccer/player/country_player_list_avg_rating.html'
+    template_name = 'soccer/player/country_player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments'), avg_ovr=Avg('comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -490,7 +490,7 @@ class CountryPlayerListPositionView(ListView):
 # 【選手】国籍ごとのポジション別選手リスト（コメント数順）
 class CountryPlayerListPositionCommentCountView(ListView):
     model = Player
-    template_name = 'soccer/player/country_player_list_position_comment_count.html'
+    template_name = 'soccer/player/country_player_list_position.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments')).order_by('-num_comments','-created_at')
@@ -512,7 +512,7 @@ class CountryPlayerListPositionCommentCountView(ListView):
 # 【選手】国籍ごとのポジション別選手リスト（平均総合評価順）
 class CountryPlayerListPositionAvgRatingView(ListView):
     model = Player
-    template_name = 'soccer/player/country_player_list_position_avg_rating.html'
+    template_name = 'soccer/player/country_player_list_position.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments'), avg_ovr=Avg('comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -553,7 +553,7 @@ class PositionPlayerListView(ListView):
 # 【選手】ポジションごとの選手リスト（コメント数順）
 class PositionPlayerListCommentCountView(ListView):
     model = Player
-    template_name = 'soccer/player/position_player_list_comment_count.html'
+    template_name = 'soccer/player/position_player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments')).order_by('-num_comments','-created_at')
@@ -572,7 +572,7 @@ class PositionPlayerListCommentCountView(ListView):
 # 【選手】ポジションごとの選手リスト（平均総合評価順）
 class PositionPlayerListAvgRatingView(ListView):
     model = Player
-    template_name = 'soccer/player/position_player_list_avg_rating.html'
+    template_name = 'soccer/player/position_player_list.html'
     paginate_by = 10
     queryset = Player.objects.annotate(
         num_comments=Count('comments'), avg_ovr=Avg('comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -642,7 +642,7 @@ class CommnetListView(ListView):
 # 【選手】コメントリスト（いいね数順）
 class CommnetListLikeCountView(ListView):
     model = Comment
-    template_name = 'soccer/player/comment_list_like_count.html'
+    template_name = 'soccer/player/comment_list.html'
     paginate_by = 10
     queryset = Comment.objects.order_by('-like', '-timestamp')
 
@@ -650,7 +650,7 @@ class CommnetListLikeCountView(ListView):
 # 【選手】コメントリスト（高評価順）
 class CommnetListHighRatingView(ListView):
     model = Comment
-    template_name = 'soccer/player/comment_list_high_rating.html'
+    template_name = 'soccer/player/comment_list.html'
     paginate_by = 10
     queryset = Comment.objects.order_by('-ovr', '-like', '-timestamp')
 
@@ -658,7 +658,7 @@ class CommnetListHighRatingView(ListView):
 # 【選手】コメントリスト（低評価順）
 class CommnetListLowRatingView(ListView):
     model = Comment
-    template_name = 'soccer/player/comment_list_low_rating.html'
+    template_name = 'soccer/player/comment_list.html'
     paginate_by = 10
     queryset = Comment.objects.order_by('ovr', '-like', '-timestamp')
 

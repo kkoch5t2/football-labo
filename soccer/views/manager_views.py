@@ -68,7 +68,7 @@ class ManagerListView(ListView):
 # 【監督】リスト（コメント数順）
 class ManagerListCommentCountView(ListView):
     model = Manager
-    template_name = 'soccer/manager/manager_list_comment_count.html'
+    template_name = 'soccer/manager/manager_list.html'
     paginate_by = 10
     # 監督ごとのコメント数を取得＆コメント数（降順）、ページ作成日時（降順）の順に並べる
     queryset = Manager.objects.annotate(
@@ -78,7 +78,7 @@ class ManagerListCommentCountView(ListView):
 # 【監督】リスト（平均総合評価順）
 class ManagerListAvgRatingView(ListView):
     model = Manager
-    template_name = 'soccer/manager/manager_list_avg_rating.html'
+    template_name = 'soccer/manager/manager_list.html'
     paginate_by = 10
     # 監督ごとのコメント数と平均総合評価の値を取得＆平均総合評価（降順）、コメント数（降順）、ページ作成日時（降順）の順に並べる
     queryset = Manager.objects.annotate(
@@ -146,7 +146,7 @@ class CountryManagerView(ListView):
 # 【監督】国ごとの監督リスト（コメント数順）
 class CountryManagerCommentCountView(ListView):
     model = Manager
-    template_name = 'soccer/manager/country_manager_list_comment_count.html'
+    template_name = 'soccer/manager/country_manager_list.html'
     paginate_by = 10
     # 各監督のコメント数をカウント
     queryset = Manager.objects.annotate(
@@ -172,7 +172,7 @@ class CountryManagerCommentCountView(ListView):
 # 【監督】国ごとの監督リスト（平均総合評価順）
 class CountryManagerAvgRatingView(ListView):
     model = Manager
-    template_name = 'soccer/manager/country_manager_list_avg_rating.html'
+    template_name = 'soccer/manager/country_manager_list.html'
     paginate_by = 10
     # 各監督のコメント数をカウント
     queryset = Manager.objects.annotate(
@@ -254,7 +254,7 @@ class TeamManagerView(ListView):
 # 【監督】リーグや地域ごとの監督リスト（コメント数順）
 class TeamManagerCommentCountView(ListView):
     model = Manager
-    template_name = 'soccer/manager/team_manager_list_comment_count.html'
+    template_name = 'soccer/manager/team_manager_list.html'
     paginate_by = 10
     # 各監督のコメント数をカウント
     queryset = Manager.objects.annotate(
@@ -280,7 +280,7 @@ class TeamManagerCommentCountView(ListView):
 # 【監督】リーグや地域ごとの監督リスト（平均総合評価順）
 class TeamManagerAvgRatingView(ListView):
     model = Manager
-    template_name = 'soccer/manager/team_manager_list_avg_rating.html'
+    template_name = 'soccer/manager/team_manager_list.html'
     paginate_by = 10
     # 各監督のコメント数をカウント
     queryset = Manager.objects.annotate(
@@ -331,7 +331,7 @@ class ManagerDetailView(DetailView):
 # 【監督】詳細（コメントいいね数順）
 class ManagerDetailLikeCountView(DetailView):
     model = Manager
-    template_name = 'soccer/manager/manager_detail_like_count.html'
+    template_name = 'soccer/manager/manager_detail.html'
     queryset = Manager.objects.annotate(
         num_comments=Count('manager_comments'))
 
@@ -356,7 +356,7 @@ class ManagerDetailLikeCountView(DetailView):
 # 【監督】詳細（コメント高評価順）
 class ManagerDetailHighRatingView(DetailView):
     model = Manager
-    template_name = 'soccer/manager/manager_detail_high_rating.html'
+    template_name = 'soccer/manager/manager_detail.html'
     queryset = Manager.objects.annotate(
         num_comments=Count('manager_comments'))
 
@@ -381,7 +381,7 @@ class ManagerDetailHighRatingView(DetailView):
 # 【監督】詳細（コメント低評価順）
 class ManagerDetailLowRatingView(DetailView):
     model = Manager
-    template_name = 'soccer/manager/manager_detail_low_rating.html'
+    template_name = 'soccer/manager/manager_detail.html'
     queryset = Manager.objects.annotate(
         num_comments=Count('manager_comments'))
 
@@ -441,7 +441,7 @@ class ManagerCommnetListView(ListView):
 # 【監督】コメントリスト（いいね数順）
 class ManagerCommnetListLikeCountView(ListView):
     model = ManagerComment
-    template_name = 'soccer/manager/manager_comment_list_like_count.html'
+    template_name = 'soccer/manager/manager_comment_list.html'
     paginate_by = 10    
     queryset = ManagerComment.objects.order_by('-like', '-timestamp')
 
@@ -449,7 +449,7 @@ class ManagerCommnetListLikeCountView(ListView):
 # 【監督】コメントリスト（高評価順）
 class ManagerCommnetListHighRatingView(ListView):
     model = ManagerComment
-    template_name = 'soccer/manager/manager_comment_list_high_rating.html'
+    template_name = 'soccer/manager/manager_comment_list.html'
     paginate_by = 10
     queryset = ManagerComment.objects.order_by('-ovr', '-like', '-timestamp')
 
@@ -457,7 +457,7 @@ class ManagerCommnetListHighRatingView(ListView):
 # 【監督】コメントリスト（低評価順）
 class ManagerCommnetListLowRatingView(ListView):
     model = ManagerComment
-    template_name = 'soccer/manager/manager_comment_list_low_rating.html'
+    template_name = 'soccer/manager/manager_comment_list.html'
     paginate_by = 10    
     queryset = ManagerComment.objects.order_by('ovr', '-like', '-timestamp')
 

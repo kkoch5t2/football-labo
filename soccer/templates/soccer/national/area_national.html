@@ -14,11 +14,23 @@
       <h1 class="headline1 mb-4"><i class="fas fa-globe"></i> {{ area.name }}の国一覧（代表チーム）</h1>
       <div class="btn-group-vertical w-100 mb-3" role="group">
         <div class="btn-group w-100" role="group">
-          <button type="button" class="btn btn-primary w-50 active">最新順</button>
-          <a href="{% url 'soccer:area_national_comment_count' area.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+          {% if request.resolver_match.url_name == 'area_national' %}
+            <button type="button" class="btn btn-primary w-50 active">最新順</button>
+          {% else %}
+            <a href="{% url 'soccer:area_national' area.slug %}" class="btn btn-outline-primary w-50">最新順</a>
+          {% endif %}
+          {% if request.resolver_match.url_name == 'area_national_comment_count' %}
+            <button type="button" class="btn btn-primary w-50 active">コメント数順</button>
+          {% else %}
+            <a href="{% url 'soccer:area_national_comment_count' area.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+          {% endif %}
         </div>
         <div class="btn-group w-100" role="group">
-          <a href="{% url 'soccer:area_national_avg_rating' area.slug %}" class="btn btn-outline-primary w-50">平均総合評価順</a>
+          {% if request.resolver_match.url_name == 'area_national_avg_rating' %}
+            <button type="button" class="btn btn-primary w-50 active">平均総合評価順</button>
+          {% else %}
+            <a href="{% url 'soccer:area_national_avg_rating' area.slug %}" class="btn btn-outline-primary w-50">平均総合評価順</a>
+          {% endif %}
         </div>
       </div>
       {% include "soccer/snippets/national_main_page.html" %}

@@ -14,11 +14,23 @@
       <h1 class="headline1 mb-4">{{ league.flag|safe }} {{ league.name }}リーグのチーム一覧（クラブチーム）</h1>
       <div class="btn-group-vertical w-100 mb-3" role="group">
         <div class="btn-group w-100" role="group">
-          <button type="button" class="btn btn-primary w-50 active">最新順</button>
-          <a href="{% url 'soccer:league_club_comment_count' league.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+          {% if request.resolver_match.url_name == 'league_club' %}
+            <button type="button" class="btn btn-primary w-50 active">最新順</button>
+          {% else %}
+            <a href="{% url 'soccer:league_club' league.slug %}" class="btn btn-outline-primary w-50">最新順</a>
+          {% endif %}
+          {% if request.resolver_match.url_name == 'league_club_comment_count' %}
+            <button type="button" class="btn btn-primary w-50 active">コメント数順</button>
+          {% else %}
+            <a href="{% url 'soccer:league_club_comment_count' league.slug %}" class="btn btn-outline-primary w-50">コメント数順</a>
+          {% endif %}
         </div>
         <div class="btn-group w-100" role="group">
-          <a href="{% url 'soccer:league_club_avg_rating' league.slug %}" class="btn btn-outline-primary w-50">平均総合評価順</a>
+          {% if request.resolver_match.url_name == 'league_club_avg_rating' %}
+            <button type="button" class="btn btn-primary w-50 active">平均総合評価順</button>
+          {% else %}
+            <a href="{% url 'soccer:league_club_avg_rating' league.slug %}" class="btn btn-outline-primary w-50">平均総合評価順</a>
+          {% endif %}
         </div>
       </div>
       {% include "soccer/snippets/club_main_page.html" %}

@@ -81,7 +81,7 @@ class AreaNationalView(ListView):
 # 【代表】地域ごとの国リスト（コメント数順）
 class AreaNationalCommentCountView(ListView):
     model = Country
-    template_name = 'soccer/national/area_national_comment_count.html'
+    template_name = 'soccer/national/area_national.html'
     paginate_by = 10
     queryset = Country.objects.annotate(
         num_comments=Count('national_comments')).order_by('-num_comments','-created_at')
@@ -101,7 +101,7 @@ class AreaNationalCommentCountView(ListView):
 # 【代表】地域ごとの国リスト（平均総合評価順）
 class AreaNationalAvgRatingView(ListView):
     model = Country
-    template_name = 'soccer/national/area_national_avg_rating.html'
+    template_name = 'soccer/national/area_national.html'
     paginate_by = 10
     queryset = Country.objects.annotate(
         num_comments=Count('national_comments'), avg_ovr=Avg('national_comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -143,7 +143,7 @@ class NationalDetailView(DetailView):
 # 【代表】詳細（コメントいいね数順）
 class NationalDetailLikeCountView(DetailView):
     model = Country
-    template_name = 'soccer/national/national_detail_like_count.html'
+    template_name = 'soccer/national/national_detail.html'
     queryset = Country.objects.annotate(
         num_comments=Count('national_comments'))
 
@@ -165,7 +165,7 @@ class NationalDetailLikeCountView(DetailView):
 # 【代表】詳細（コメント高評価順）
 class NationalDetailHighRatingView(DetailView):
     model = Country
-    template_name = 'soccer/national/national_detail_high_rating.html'
+    template_name = 'soccer/national/national_detail.html'
     queryset = Country.objects.annotate(
         num_comments=Count('national_comments'))
 
@@ -187,7 +187,7 @@ class NationalDetailHighRatingView(DetailView):
 # 【代表】詳細（コメント低評価順）
 class NationalDetailLowRatingView(DetailView):
     model = Country
-    template_name = 'soccer/national/national_detail_low_rating.html'
+    template_name = 'soccer/national/national_detail.html'
     queryset = Country.objects.annotate(
         num_comments=Count('national_comments'))
 
@@ -244,7 +244,7 @@ class NationalCommnetListView(ListView):
 # 【代表】コメントリスト（いいね数順）
 class NationalCommnetListLikeCountView(ListView):
     model = NationalComment
-    template_name = 'soccer/national/national_comment_list_like_count.html'
+    template_name = 'soccer/national/national_comment_list.html'
     paginate_by = 10
     queryset = NationalComment.objects.order_by('-like', '-timestamp')
 
@@ -252,7 +252,7 @@ class NationalCommnetListLikeCountView(ListView):
 # 【代表】コメントリスト（高評価順）
 class NationalCommnetListHighRatingView(ListView):
     model = NationalComment
-    template_name = 'soccer/national/national_comment_list_high_rating.html'
+    template_name = 'soccer/national/national_comment_list.html'
     paginate_by = 10
     queryset = NationalComment.objects.order_by('-ovr', '-like', '-timestamp')
 
@@ -260,7 +260,7 @@ class NationalCommnetListHighRatingView(ListView):
 # 【代表】コメントリスト（低評価順）
 class NationalCommnetListLowRatingView(ListView):
     model = NationalComment
-    template_name = 'soccer/national/national_comment_list_low_rating.html'
+    template_name = 'soccer/national/national_comment_list.html'
     paginate_by = 10
     queryset = NationalComment.objects.order_by('ovr', '-like', '-timestamp')
 

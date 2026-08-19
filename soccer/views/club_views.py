@@ -81,7 +81,7 @@ class LeagueClubView(ListView):
 # 【クラブ】リーグごとのクラブリスト（コメント数順）
 class LeagueClubCommentCountView(ListView):
     model = Team
-    template_name = 'soccer/club/league_club_comment_count.html'
+    template_name = 'soccer/club/league_club.html'
     paginate_by = 10
     queryset = Team.objects.annotate(
         num_comments=Count('club_comments')).order_by('-num_comments','-created_at')
@@ -101,7 +101,7 @@ class LeagueClubCommentCountView(ListView):
 # 【クラブ】リーグごとのクラブリスト（平均総合評価順）
 class LeagueClubAvgRatingView(ListView):
     model = Team
-    template_name = 'soccer/club/league_club_avg_rating.html'
+    template_name = 'soccer/club/league_club.html'
     paginate_by = 10
     queryset = Team.objects.annotate(
         num_comments=Count('club_comments'), avg_ovr=Avg('club_comments__ovr')).order_by(F('avg_ovr').desc(nulls_last=True), '-num_comments', '-created_at')
@@ -143,7 +143,7 @@ class ClubDetailView(DetailView):
 # 【クラブ】詳細（コメントいいね数順）
 class ClubDetailLikeCountView(DetailView):
     model = Team
-    template_name = 'soccer/club/club_detail_like_count.html'
+    template_name = 'soccer/club/club_detail.html'
     queryset = Team.objects.annotate(
         num_comments=Count('club_comments'))
 
@@ -165,7 +165,7 @@ class ClubDetailLikeCountView(DetailView):
 # 【クラブ】詳細（コメント高評価数順）
 class ClubDetailHighRatingView(DetailView):
     model = Team
-    template_name = 'soccer/club/club_detail_high_rating.html'
+    template_name = 'soccer/club/club_detail.html'
     queryset = Team.objects.annotate(
         num_comments=Count('club_comments'))
 
@@ -187,7 +187,7 @@ class ClubDetailHighRatingView(DetailView):
 # 【クラブ】詳細（コメント低評価数順）
 class ClubDetailLowRatingView(DetailView):
     model = Team
-    template_name = 'soccer/club/club_detail_low_rating.html'
+    template_name = 'soccer/club/club_detail.html'
     queryset = Team.objects.annotate(
         num_comments=Count('club_comments'))
 
@@ -244,7 +244,7 @@ class ClubCommnetListView(ListView):
 # 【クラブ】コメントリスト（いいね数順）
 class ClubCommnetListLikeCountView(ListView):
     model = ClubComment
-    template_name = 'soccer/club/club_comment_list_like_count.html'
+    template_name = 'soccer/club/club_comment_list.html'
     paginate_by = 10
     queryset = ClubComment.objects.order_by('-like', '-timestamp')
 
@@ -252,7 +252,7 @@ class ClubCommnetListLikeCountView(ListView):
 # 【クラブ】コメントリスト（高評価順）
 class ClubCommnetListHighRatingView(ListView):
     model = ClubComment
-    template_name = 'soccer/club/club_comment_list_high_rating.html'
+    template_name = 'soccer/club/club_comment_list.html'
     paginate_by = 10
     queryset = ClubComment.objects.order_by('-ovr', '-like', '-timestamp')
 
@@ -260,7 +260,7 @@ class ClubCommnetListHighRatingView(ListView):
 # 【クラブ】コメントリスト（低評価順）
 class ClubCommnetListLowRatingView(ListView):
     model = ClubComment
-    template_name = 'soccer/club/club_comment_list_low_rating.html'
+    template_name = 'soccer/club/club_comment_list.html'
     paginate_by = 10
     queryset = ClubComment.objects.order_by('ovr', '-like', '-timestamp')
 

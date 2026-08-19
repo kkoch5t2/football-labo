@@ -11,18 +11,7 @@
   <div class="row">
     <main class="col-md-8">
       {% include "user/snippets/user_detail_area.html" %}
-      <div class="btn-group-vertical w-100 mb-3" role="group">
-        <div class="btn-group w-100" role="group">
-          <button type="button" class="btn btn-primary w-50 active">過去の投稿一覧</button>
-          <a href="{% url 'soccer:user_like_player_comment_list' request_user.username %}" class="btn btn-outline-primary w-50">いいねした投稿一覧</a>
-        </div>
-        <div class="btn-group w-100" role="group">
-          <a href="{% url 'soccer:user_player_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">選手</a>
-          <button type="button" class="btn btn-primary w-25 active">監督</button>
-          <a href="{% url 'soccer:user_club_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">クラブ</a>
-          <a href="{% url 'soccer:user_national_comment_list' request_user.username %}" class="btn btn-outline-primary w-25">代表</a>
-        </div>
-      </div>
+      {% include "user/snippets/user_comment_list_buttons.html" %}
       {% for managercomment in object_list %}
         <div class="card my-4">
           <div class="card-body">

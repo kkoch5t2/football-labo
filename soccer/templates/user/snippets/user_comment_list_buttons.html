@@ -1,0 +1,36 @@
+<div class="btn-group-vertical w-100 mb-3" role="group">
+  <div class="btn-group w-100" role="group">
+    {% if 'like' in request.resolver_match.url_name %}
+      <a href="{% if 'player' in request.resolver_match.url_name %}{% url 'soccer:user_player_comment_list' request_user.username %}{% elif 'manager' in request.resolver_match.url_name %}{% url 'soccer:user_manager_comment_list' request_user.username %}{% elif 'club' in request.resolver_match.url_name %}{% url 'soccer:user_club_comment_list' request_user.username %}{% else %}{% url 'soccer:user_national_comment_list' request_user.username %}{% endif %}" class="btn btn-outline-primary w-50">過去の投稿一覧</a>
+      <button type="button" class="btn btn-primary w-50 active">いいねした投稿一覧</button>
+    {% else %}
+      <button type="button" class="btn btn-primary w-50 active">過去の投稿一覧</button>
+      <a href="{% if 'player' in request.resolver_match.url_name %}{% url 'soccer:user_like_player_comment_list' request_user.username %}{% elif 'manager' in request.resolver_match.url_name %}{% url 'soccer:user_like_manager_comment_list' request_user.username %}{% elif 'club' in request.resolver_match.url_name %}{% url 'soccer:user_like_club_comment_list' request_user.username %}{% else %}{% url 'soccer:user_like_national_comment_list' request_user.username %}{% endif %}" class="btn btn-outline-primary w-50">いいねした投稿一覧</a>
+    {% endif %}
+  </div>
+  <div class="btn-group w-100" role="group">
+    {% if 'player' in request.resolver_match.url_name %}
+       <button type="button" class="btn btn-primary w-25 active">選手</button>
+    {% else %}
+       <a href="{% if 'like' in request.resolver_match.url_name %}{% url 'soccer:user_like_player_comment_list' request_user.username %}{% else %}{% url 'soccer:user_player_comment_list' request_user.username %}{% endif %}" class="btn btn-outline-primary w-25">選手</a>
+    {% endif %}
+
+    {% if 'manager' in request.resolver_match.url_name %}
+       <button type="button" class="btn btn-primary w-25 active">監督</button>
+    {% else %}
+       <a href="{% if 'like' in request.resolver_match.url_name %}{% url 'soccer:user_like_manager_comment_list' request_user.username %}{% else %}{% url 'soccer:user_manager_comment_list' request_user.username %}{% endif %}" class="btn btn-outline-primary w-25">監督</a>
+    {% endif %}
+
+    {% if 'club' in request.resolver_match.url_name %}
+       <button type="button" class="btn btn-primary w-25 active">クラブ</button>
+    {% else %}
+       <a href="{% if 'like' in request.resolver_match.url_name %}{% url 'soccer:user_like_club_comment_list' request_user.username %}{% else %}{% url 'soccer:user_club_comment_list' request_user.username %}{% endif %}" class="btn btn-outline-primary w-25">クラブ</a>
+    {% endif %}
+
+    {% if 'national' in request.resolver_match.url_name %}
+       <button type="button" class="btn btn-primary w-25 active">代表</button>
+    {% else %}
+       <a href="{% if 'like' in request.resolver_match.url_name %}{% url 'soccer:user_like_national_comment_list' request_user.username %}{% else %}{% url 'soccer:user_national_comment_list' request_user.username %}{% endif %}" class="btn btn-outline-primary w-25">代表</a>
+    {% endif %}
+  </div>
+</div>

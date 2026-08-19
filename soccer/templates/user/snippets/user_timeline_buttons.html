@@ -1,0 +1,25 @@
+      <div class="btn-group w-100 my-3" role="group">
+        {% if 'player' in request.resolver_match.url_name %}
+           <button type="button" class="btn btn-primary w-25 active">選手</button>
+        {% else %}
+           <a href="{% url 'soccer:user_timeline_player_comment' %}" class="btn btn-outline-primary w-25">選手</a>
+        {% endif %}
+
+        {% if 'manager' in request.resolver_match.url_name %}
+           <button type="button" class="btn btn-primary w-25 active">監督</button>
+        {% else %}
+           <a href="{% url 'soccer:user_timeline_manager_comment' %}" class="btn btn-outline-primary w-25">監督</a>
+        {% endif %}
+
+        {% if 'club' in request.resolver_match.url_name %}
+           <button type="button" class="btn btn-primary w-25 active">クラブ</button>
+        {% else %}
+           <a href="{% url 'soccer:user_timeline_club_comment' %}" class="btn btn-outline-primary w-25">クラブ</a>
+        {% endif %}
+
+        {% if 'national' in request.resolver_match.url_name %}
+           <button type="button" class="btn btn-primary w-25 active">代表</button>
+        {% else %}
+           <a href="{% url 'soccer:user_timeline_national_comment' %}" class="btn btn-outline-primary w-25">代表</a>
+        {% endif %}
+      </div>
